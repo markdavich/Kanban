@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
 import AuthService from './AuthService'
-import { getMaxListeners } from 'cluster'
+
 
 Vue.use(Vuex)
 
@@ -37,7 +37,8 @@ export default new Vuex.Store({
   actions: {
     async createList({ dispatch }, list) {
       try {
-        let axiosRes = await api.post("lists", list)
+        let endPoint = `lists`
+        let axiosRes = await api.post(endPoint, list)
         if (axiosRes) {
           dispatch("getLists", list.board)
         }

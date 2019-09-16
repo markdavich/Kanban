@@ -24,7 +24,15 @@
     },
     methods: {
       createList() {
-        this.$store.dispatch("createList", list)
+        this.$store.dispatch("createList", this.getList())
+      },
+      getList() {
+        let result = {
+          title: "",
+          user: this.userId, // userId is a mixin in main.js (client)
+          board: this.boardId
+        }
+        return result
       }
     },
   };
