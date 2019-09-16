@@ -19,9 +19,6 @@
       </transition-group>
     </draggable>
   </div>
-
-  .
-  </div>
 </template>
 
 <script>

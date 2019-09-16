@@ -47,6 +47,7 @@ export default new Vuex.Store({
       }
     },
     async getLists({ commit }, boardId) {
+      debugger
       let endPoint = `lists/boards/${boardId}`
       try {
         let axiosRes = await api.get(endPoint)

@@ -2,16 +2,25 @@
   <div>
     <h1 class="board">board.title = {{board.title}}</h1>
     <button class="btn btn-primary" @click="createList">New List</button>
+    <list v-for="list in lists" :list="list"></list>
   </div>
 </template>
 
 <script>
+  import List from "../components/List"
   export default {
     name: "board",
+    components: {
+      List
+    },
     computed: {
       boardId() {
         let result = this.$route.params.boardId
         return result
+      },
+      lists() {
+        debugger
+        return this.$store.state.lists
       },
       board() {
         return (
