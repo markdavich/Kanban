@@ -7,14 +7,14 @@ mongoose.set('useCreateIndex', true);
 mongoose.connection.on('error', err => {
   console.error('[DATABASE ERROR]:', err)
 })
-
+process.env.CONNECTION_STRING
 //TODO: ADD YOUR CONNECTION STRING!!!
-const connectionString = "" 
+
 
 export default class DbContext {
   static async connect() {
     try {
-      let status = await mongoose.connect(connectionString)
+      let status = await mongoose.connect(process.env.CONNECTION_STRING)
       console.log("CONNECTED")
       return status
     } catch (e) {

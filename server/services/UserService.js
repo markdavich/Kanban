@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs'
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 
+
+
+
 //bcrypt uses hashing and salt to obfiscate your password 
 const SALT = 10
 
@@ -31,7 +34,9 @@ _schema.statics.generateHash = function (password) {
   return bcrypt.hashSync(password, SALT)
 }
 
-export default mongoose.model('User', _schema)
-
-
+export default class UserService {
+  get repository() {
+    return mongoose.model('User', _schema)
+  }
+}
 

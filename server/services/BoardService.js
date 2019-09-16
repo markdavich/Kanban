@@ -8,7 +8,8 @@ let _listRepo = new ListService().repository
 let _schema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  authorId: { type: ObjectId, ref: 'User', required: true }
+  author: { type: ObjectId, ref: 'User' },
+  user: { type: ObjectId, ref: 'User', required: true }
 }, { timestamps: true })
 
 //CASCADE ON DELETE
