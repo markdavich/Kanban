@@ -4,8 +4,9 @@ let ObjectId = Schema.Types.ObjectId
 
 let _schema = new Schema({
   title: { type: String, required: true },
-  authorId: { type: ObjectId, ref: 'User', required: true },
-  boardId: { type: ObjectId, ref: 'Board', required: true }
+  author: { type: ObjectId, ref: 'User' },
+  user: {type: ObjectId, ref: 'User', required: true},
+  board: { type: ObjectId, ref: 'Board', required: true }
 }, { timestamps: true })
 
 //CASCADE ON DELETE

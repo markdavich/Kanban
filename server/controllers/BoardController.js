@@ -22,7 +22,7 @@ export default class BoardsController {
   async getAll(req, res, next) {
     try {
       //only gets boards by user who is logged in
-      let data = await _boardService.find({ authorId: req.session.uid })
+      let data = await _boardService.find({ user: req.session.uid })
       return res.send(data)
     }
     catch (err) { next(err) }
@@ -30,14 +30,14 @@ export default class BoardsController {
 
   async getById(req, res, next) {
     try {
-      let data = await _boardService.findOne({ _id: req.params.id, authorId: req.session.uid })
+      let data = await _boardService.findOne({ _id: req.params.id, user: req.session.uid })
       return res.send(data)
     } catch (error) { next(error) }
   }
 
   async create(req, res, next) {
     try {
-      req.body.authorId = req.session.uid
+      req.body.user = req.session.uid
       let data = await _boardService.create(req.body)
       return res.status(201).send(data)
     } catch (error) { next(error) }
@@ -45,7 +45,7 @@ export default class BoardsController {
 
   async edit(req, res, next) {
     try {
-      let data = await _boardService.findOneAndUpdate({ _id: req.params.id, authorId: req.session.uid }, req.body, { new: true })
+      let data = await _boardService.findOneAndUpdate({ _id: req.params.id, user: req.session.uid }, req.body, { new: true })
       if (data) {
         return res.send(data)
       }
@@ -55,7 +55,7 @@ export default class BoardsController {
 
   async delete(req, res, next) {
     try {
-      await _boardService.findOneAndRemove({ _id: req.params.id, authorId: req.session.uid })
+      await _boardService.findOneAndRemove({ _id: req.params.id, user: req.session.uid })
       return res.send("Successfully deleted")
     } catch (error) { next(error) }
   }
