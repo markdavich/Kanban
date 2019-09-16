@@ -8,6 +8,7 @@ export default class ListController {
       .use(Authorize.authenticated)
       .get('', this.getAll)
       .get('/:id', this.getById)
+      .get('/boards/:boardId', this.getByBoardId)
       .post('', this.create)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
@@ -28,7 +29,13 @@ export default class ListController {
   }
   async getById(req, res, next) {
     try {
-      let data = await _listService.findOne({ _id: req.params.id, user: req.session.uid })
+      let data = await _listService.findOne({ _id: req.params.id })
+      return res.send(data)
+    } catch (error) { next(error) }
+  }
+  async getByBoardId(req, res, next) {
+    try {
+      let data = await _listService.findOne({ board: req.params.id })
       return res.send(data)
     } catch (error) { next(error) }
   }

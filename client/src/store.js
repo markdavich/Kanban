@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
 import AuthService from './AuthService'
+import { getMaxListeners } from 'cluster'
 
 Vue.use(Vuex)
 
@@ -19,9 +20,13 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
+    lists: [],
     activeBoard: {}
   },
   mutations: {
+    setLists(state, lists) {
+      state.lists = lists
+    },
     setUser(state, user) {
       state.user = user
     },
@@ -30,6 +35,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async createList({ dispatch }, list) {
+      try {
+        let axiosRes = await api.post("lists", list)
+        if (axiosRes) {
+          dispatch("getLists", list.board)
+        }
+      } catch (error) {
+
+      }
+    },
+    async getLists({ commit }, boardId) {
+      let endPoint = `lists/boards/${boardId}`
+      try {
+        let axiosRes = await api.get(endPoint)
+        let lists = axiosRes.data
+        commit("setLists", lists)
+      } catch (error) {
+
+      }
+    },
+
     //#region -- AUTH STUFF --
     async register({ commit, dispatch }, creds) {
       try {

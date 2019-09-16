@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="board">board.title = {{board.title}}</h1>
-    <button class="btn btn-primary">New Task</button>
+    <button class="btn btn-primary" @click="createList">New List</button>
   </div>
 </template>
 
@@ -21,6 +21,11 @@
           }
         );
       }
-    }
+    },
+    methods: {
+      createList() {
+        this.$store.dispatch("createList", list)
+      }
+    },
   };
 </script>
