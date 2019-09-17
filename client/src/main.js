@@ -6,6 +6,14 @@ import AuthService from "./AuthService"
 
 //Vue.config.productionTip = false
 
+Vue.mixin({
+  methods: {
+    userId() {
+      return this.$store.state.user._id
+    }
+  }
+})
+
 async function init() {
   let user = await AuthService.Authenticate()
   if (user) { store.commit("setUser", user) }

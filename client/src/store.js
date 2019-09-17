@@ -4,6 +4,7 @@ import Axios from 'axios'
 import router from './router'
 import AuthService from './AuthService'
 
+
 Vue.use(Vuex)
 
 //Allows axios to work locally or live
@@ -19,9 +20,13 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
+    lists: [],
     activeBoard: {}
   },
   mutations: {
+    setLists(state, lists) {
+      state.lists = lists
+    },
     setUser(state, user) {
       state.user = user
     },
@@ -30,6 +35,29 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async createList({ dispatch }, list) {
+      try {
+        let endPoint = `lists`
+        let axiosRes = await api.post(endPoint, list)
+        if (axiosRes) {
+          dispatch("getLists", list.board)
+        }
+      } catch (error) {
+
+      }
+    },
+    async getLists({ commit }, boardId) {
+      debugger
+      let endPoint = `lists/boards/${boardId}`
+      try {
+        let axiosRes = await api.get(endPoint)
+        let lists = axiosRes.data
+        commit("setLists", lists)
+      } catch (error) {
+
+      }
+    },
+
     //#region -- AUTH STUFF --
     async register({ commit, dispatch }, creds) {
       try {
@@ -63,17 +91,28 @@ export default new Vuex.Store({
 
 
     //#region -- BOARDS --
-    getBoards({ commit, dispatch }) {
-      api.get('boards')
-        .then(res => {
-          commit('setBoards', res.data)
-        })
+    async getBoards({ commit, dispatch }) {
+      try {
+        let axiosRes = await api.get('boards')
+        let boards = axiosRes.data
+        commit('setBoards', boards)
+      } catch (error) {
+
+      }
+
+      // api.get('boards')
+      //   .then(res => {
+      //     commit('setBoards', res.data)
+      //   })
     },
-    addBoard({ commit, dispatch }, boardData) {
-      api.post('boards', boardData)
-        .then(serverBoard => {
+    async  addBoard({ commit, dispatch }, boardData) {
+      try {
+        let axiosRes = await api.post('boards', boardData)
+        if (axiosRes) {
           dispatch('getBoards')
-        })
+        }
+      } catch (error) {
+      }
     }
     //#endregion
 
