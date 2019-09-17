@@ -1,35 +1,62 @@
 <template>
-  <div class="col-md-3 list">
+  <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="List Title" aria-describedby="button-addon2">
+      <click-edit
+        :initialValue="'Initial Value'"
+        :placeHolder="'Title ---- '"
+        :enterKeyPress="titleChange"
+      ></click-edit>
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" @click="editList">...</button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="editList"
+        >
+          ...
+        </button>
       </div>
     </div>
-    <h1>list.title {{list.tile}}</h1>
-    <draggable class="list-group" tag="ul" v-model="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true"
-      @end="isDragging=false">
+
+    <draggable
+      class="list-group"
+      tag="ul"
+      v-model="list"
+      v-bind="dragOptions"
+      :move="onMove"
+      @start="isDragging=true"
+      @end="isDragging=false"
+    >
       <transition-group type="transition" :name="'flip-list'">
-        <li class="list-group-item" v-for="element in list" :key="element.order">
-          <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
-            @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
-          {{element.name}}
-          <span class="badge">{{element.order}}</span>
+        <li
+          class="list-group-item"
+          v-for="element in list"
+          :key="element.order"
+        >
+          <i
+            :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
+            @click=" element.fixed=! element.fixed"
+            aria-hidden="true"
+          ></i>
+          {{ element.name }}
+          <span class="badge">{{ element.order }}</span>
         </li>
       </transition-group>
     </draggable>
+    <p class="new-task">New Task</p>
   </div>
 </template>
 
 <script>
   import draggable from "vuedraggable";
+  import ClickEdit from "./ClickEdit";
   export default {
-    name: 'list',
+    name: "list",
     props: {
       list: { type: Object, required: true }
     },
     components: {
-      draggable
+      draggable,
+      ClickEdit
     },
     data() {
       return {
@@ -39,10 +66,11 @@
       };
     },
     methods: {
+      titleChange(newValue) {
+        alert(`List.vue methods: titleChange(${newValue})`);
+      },
       editList() {
-        //want to work on logic for editing list
-        this.$store.dispatch('editList', this.list)
-        alert("list.vue methods editList() not implemented")
+        alert("list.vue methods editList() not implemented");
         //make it done
       },
       orderList() {
@@ -60,7 +88,7 @@
     },
     computed: {
       tasks() {
-        alert("list.vue: computed tasks() not implemented")
+        alert("list.vue: computed tasks() not implemented");
       },
       dragOptions() {
         return {
@@ -87,9 +115,22 @@
 
 <style scoped>
   .list {
-    border: solid red 1px;
-    border-radius: 5px;
-    min-height: 100px;
+    padding: 10px;
+    border-radius: var(--list-border-radius);
+    border: solid var(--list-border-color) var(--list-border-size);
+    box-shadow: 4px 4px 12px black;
+  }
+  .new-task {
+    cursor: pointer;
+    color: grey;
+    float: left;
+    font-size: 1.4em;
+  }
+  .btn-outline-secondary {
+    border: none !important;
+  }
+  .list {
+    display: inline-block;
   }
 
   .flip-list-move {
