@@ -7,25 +7,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-export default {
-  name: "board",
-  computed: {
-    boardId() {
-      let result = this.$route.params.boardId
-    },
-    board() {
-      return (
-        //FIXME This does not work on page reload because the boards array is empty in the store
-        this.$store.state.boards.find(b => b._id == this.boardId) || {
-          title: "Loading..."
-        }
-      );
-    }
-  }
-};
-</script>
-=======
   import List from "../components/List"
   export default {
     name: "board",
@@ -65,4 +46,3 @@ export default {
     },
   };
 </script>
->>>>>>> 50cb2cb44ce8e4a755cb03c9e96619623159a88e
