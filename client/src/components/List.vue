@@ -40,6 +40,8 @@
     },
     methods: {
       editList() {
+        //want to work on logic for editing list
+        this.$store.dispatch('editList', this.list)
         alert("list.vue methods editList() not implemented")
         //make it done
       },
