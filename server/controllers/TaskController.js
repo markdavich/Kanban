@@ -7,7 +7,6 @@ export default class TaskController {
     this.router = express.Router()
       .use(Authorize.authenticated)
       .post('', this.create)
-      .get('/boards/:boardId', this.getByBoardId)
   }
 
   async create(req, res, next) {
@@ -20,17 +19,4 @@ export default class TaskController {
       next(error)
     }
   }
-
-  async getByBoardId(req, res, next) {
-    try {
-      let data = await _taskService.find({ board: req.params.boardId })
-      return res.status(201).send(data)
-    } catch (error) {
-      error.message = "TaskController.js: getByBoardId()"
-      next(error)
-    }
-  }
-
-
-
 }

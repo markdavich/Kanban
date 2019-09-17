@@ -1,20 +1,35 @@
 <template>
   <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <click-edit :initialValue="'Initial Value'" :placeHolder="'Title ---- '" :enterKeyPress="titleChange">
+      <click-edit
+        :initialValue="'Initial Value'"
+        :placeHolder="'Title ---- '"
+        :enterKeyPress="titleChange"
+      >
       </click-edit>
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" @click="editList">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="editList"
+        >
           ...
         </button>
       </div>
     </div>
 
-    <draggable class="list-group" tag="ul" v-model="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true"
-      @end="isDragging=false">
+    <draggable
+      class="list-group"
+      tag="ul"
+      v-model="value"
+      v-bind="dragOptions"
+      :move="onMove"
+      @start="isDragging=true"
+      @end="isDragging=false"
+    >
       <transition-group type="transition" :name="'flip-list'">
-        <li class="list-group-item" v-for="task in tasks" :key="task._id">
-          {{task.description}}
+        <li class="list-group-item" v-for="task in value" :key="task._id">
+          {{ task.description }}
           <span class="badge">{{ task.order }}</span>
         </li>
       </transition-group>
@@ -29,7 +44,8 @@
   export default {
     name: "list",
     props: {
-      list: { type: Object, required: true }
+      boardList: { type: Object, required: true }
+      // value: { type: Array }
     },
     components: {
       draggable,
@@ -45,11 +61,11 @@
     methods: {
       createNewTask() {
         let task = {
-          list: this.list._id,
+          list: this.boardList._id,
           user: this.userId,
-          board: this.list.board
-        }
-        this.$store.dispatch("createNewTask", task)
+          board: this.boardList.board
+        };
+        this.$store.dispatch("createNewTask", task);
       },
 
       titleChange(newValue) {
@@ -71,10 +87,6 @@
       }
     },
     computed: {
-      tasks() {
-        let tasks = this.$store.state.tasks
-        return tasks
-      },
       dragOptions() {
         return {
           animation: 0,
@@ -82,6 +94,15 @@
           disabled: !this.editable,
           ghostClass: "ghost"
         };
+      },
+      value: {
+        get() {
+          let tasks = this.$store.state.tasks[this.boardList._id] || [];
+          return tasks;
+        },
+        set(value) {
+          // this.$store.commit('updateList', value)
+        }
       }
     },
     watch: {
@@ -94,6 +115,10 @@
           this.delayedDragging = false;
         });
       }
+    },
+    mounted() {
+      let listId = this.boardList._id;
+      this.$store.dispatch("getTasksByListId", listId);
     }
   };
 </script>

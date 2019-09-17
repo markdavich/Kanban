@@ -1,16 +1,16 @@
 <template>
   <div class="container-fluid">
     <div class="row board-title">
-      <h1 class="board">board.title = {{board.title}}</h1>
+      <h1 class="board">board.title = {{ board.title }}</h1>
       <button class="btn btn-primary" @click="createList">New List</button>
     </div>
     <div class="scrolling-wrapper">
-      <list class="list" v-for="list in lists" :list="list"></list>
+      <list class="list" v-for="list in lists" :boardList="list"></list>
     </div>
   </div>
 </template>
 <script>
-  import List from "../components/List"
+  import List from "../components/List";
   export default {
     name: "board",
     components: {
@@ -18,12 +18,14 @@
     },
     computed: {
       boardId() {
-        let result = this.$route.params.boardId
-        return result
+        let result = this.$route.params.boardId;
+        return result;
       },
       lists() {
-
-        return this.$store.state.lists
+        return this.$store.state.lists;
+      },
+      tasks() {
+        return this.$store.state.tasks;
       },
       board() {
         return (
@@ -35,22 +37,21 @@
       }
     },
     mounted() {
-      this.$store.dispatch("getLists", this.boardId)
-      this.$store.dispatch("getTasks", this.boardId)
+      this.$store.dispatch("getLists", this.boardId);
     },
     methods: {
       createList() {
-        this.$store.dispatch("createList", this.getList())
+        this.$store.dispatch("createList", this.getList());
       },
       getList() {
         let result = {
           title: "",
           user: this.userId, // userId is a mixin in main.js (client)
           board: this.boardId
-        }
-        return result
+        };
+        return result;
       }
-    },
+    }
   };
 </script>
 <style scoped>
