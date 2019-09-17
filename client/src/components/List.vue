@@ -12,7 +12,7 @@
 
     <!-- <draggable class="list-group" tag="ul" :list="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true"
       @end="isDragging=false" group="tasks"> -->
-    <draggable v-bind:list="myList" group="myGroup" class="list-group">
+    <draggable v-model="myList" group="myGroup" class="list-group">
       <transition-group type="transition" :name="'flip-list'">
         <li class="list-group-item" v-for="task in myList" :key="task._id">
           {{ task.description }}
