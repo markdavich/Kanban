@@ -35,7 +35,7 @@ export default class ListController {
   }
   async getByBoardId(req, res, next) {
     try {
-      let data = await _listService.findOne({ board: req.params.boardId })
+      let data = await _listService.find({ board: req.params.boardId })
       return res.send(data)
     } catch (error) { next(error) }
   }

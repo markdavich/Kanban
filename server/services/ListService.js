@@ -1,6 +1,9 @@
 import mongoose from "mongoose"
+import TaskService from "./TaskService"
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
+let _taskService = new TaskService()
+
 
 let _schema = new Schema({
   title: { type: String },

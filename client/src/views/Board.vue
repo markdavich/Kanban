@@ -5,7 +5,7 @@
       <button class="btn btn-primary" @click="createList">New List</button>
     </div>
     <div class="scrolling-wrapper">
-      <list class="list" v-for=" list in lists" :list="list"></list>
+      <list class="list" v-for="list in lists" :list="list"></list>
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@
         return result
       },
       lists() {
+
         return this.$store.state.lists
       },
       board() {
@@ -35,6 +36,7 @@
     },
     mounted() {
       this.$store.dispatch("getLists", this.boardId)
+      this.$store.dispatch("getTasks", this.boardId)
     },
     methods: {
       createList() {

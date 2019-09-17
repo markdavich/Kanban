@@ -21,9 +21,13 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     lists: [],
+    tasks: [],
     activeBoard: {}
   },
   mutations: {
+    setTasks(state, tasks) {
+      state.tasks = tasks
+    },
     setLists(state, lists) {
       state.lists = lists
     },
@@ -35,6 +39,28 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async createNewTask({ commit, dispatch }, task) {
+      try {
+        let axiosRes = await api.post("tasks", task)
+        if (axiosRes) {
+          dispatch("getTasks", task.board)
+        }
+      } catch (error) {
+        debugger
+      }
+    },
+    async getTasks({ commit }, boardId) {
+      try {
+        let endPoint = `tasks/boards/${boardId}`
+        let axiosRes = await api.get(endPoint)
+        let tasks = axiosRes.data
+        commit("setTasks", tasks)
+      } catch (error) {
+        debugger
+      }
+    },
+
+
     async createList({ dispatch }, list) {
       try {
         let endPoint = `lists`
@@ -47,7 +73,6 @@ export default new Vuex.Store({
       }
     },
     async getLists({ commit }, boardId) {
-      debugger
       let endPoint = `lists/boards/${boardId}`
       try {
         let axiosRes = await api.get(endPoint)
