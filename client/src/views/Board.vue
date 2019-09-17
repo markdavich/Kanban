@@ -37,9 +37,21 @@
       }
     },
     mounted() {
+
       this.$store.dispatch("getLists", this.boardId);
+      this.$store.state.lists.forEach(element => {
+        let listId = element._id;
+        this.$store.dispatch("getTasksByListId", listId);
+      });
     },
+
     methods: {
+      getTasksByListId(listId) {
+        debugger
+        let result = this.$store.state.tasks[listId]
+        return result
+      },
+
       createList() {
         this.$store.dispatch("createList", this.getList());
       },

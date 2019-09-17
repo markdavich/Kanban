@@ -1,36 +1,22 @@
 <template>
   <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <click-edit
-        :initialValue="'Initial Value'"
-        :placeHolder="'Title ---- '"
-        :enterKeyPress="titleChange"
-      >
+      <click-edit :initialValue="'Initial Value'" :placeHolder="'Title ---- '" :enterKeyPress="titleChange">
       </click-edit>
       <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="editList"
-        >
+        <button class="btn btn-outline-secondary" type="button" @click="editList">
           ...
         </button>
       </div>
     </div>
 
-    <draggable
-      class="list-group"
-      tag="ul"
-      v-model="value"
-      v-bind="dragOptions"
-      :move="onMove"
-      @start="isDragging=true"
-      @end="isDragging=false"
-    >
+    <!-- <draggable class="list-group" tag="ul" :list="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true"
+      @end="isDragging=false" group="tasks"> -->
+    <draggable v-bind:list="myList" group="myGroup">
       <transition-group type="transition" :name="'flip-list'">
-        <li class="list-group-item" v-for="task in value" :key="task._id">
+        <li class="list-group-item" v-for="task in myList" :key="task._id">
           {{ task.description }}
-          <span class="badge">{{ task.order }}</span>
+          <!-- <span class="badge">{{ task.order }}</span> -->
         </li>
       </transition-group>
     </draggable>
@@ -44,8 +30,9 @@
   export default {
     name: "list",
     props: {
-      boardList: { type: Object, required: true }
-      // value: { type: Array }
+      boardList: { type: Object, required: true },
+      //  list: [],
+      listTasks: []
     },
     components: {
       draggable,
@@ -53,12 +40,17 @@
     },
     data() {
       return {
+        //list: [],
         editable: true,
         isDragging: false,
         delayedDragging: false
       };
     },
     methods: {
+      endDrag(e) {
+        // debugger
+      },
+
       createNewTask() {
         let task = {
           list: this.boardList._id,
@@ -95,12 +87,13 @@
           ghostClass: "ghost"
         };
       },
-      value: {
+      myList: {
         get() {
           let tasks = this.$store.state.tasks[this.boardList._id] || [];
           return tasks;
         },
         set(value) {
+          debugger
           // this.$store.commit('updateList', value)
         }
       }
@@ -117,6 +110,7 @@
       }
     },
     mounted() {
+      // this.list = this.$store.state.tasks[this.boardList_id]
       let listId = this.boardList._id;
       this.$store.dispatch("getTasksByListId", listId);
     }
@@ -160,6 +154,7 @@
   }
 
   .list-group {
+    border: solid red 1px;
     min-height: 20px;
   }
 
