@@ -14,8 +14,6 @@
       @end="isDragging=false">
       <transition-group type="transition" :name="'flip-list'">
         <li class="list-group-item" v-for="task in tasks" :key="task._id">
-          <i :class="task.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'" @click=" task.fixed=! task.fixed"
-            aria-hidden="true"></i>
           {{task.description}}
           <span class="badge">{{ task.order }}</span>
         </li>
@@ -69,9 +67,7 @@
       onMove({ relatedContext, draggedContext }) {
         const relatedElement = relatedContext.element;
         const draggedElement = draggedContext.element;
-        return (
-          (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
-        );
+        return !relatedElement;
       }
     },
     computed: {
