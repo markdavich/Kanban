@@ -6,6 +6,9 @@
 export default {
   name: "board",
   computed: {
+    boardId() {
+      let result = this.$route.params.boardId
+    },
     board() {
       return (
         //FIXME This does not work on page reload because the boards array is empty in the store
@@ -14,7 +17,6 @@ export default {
         }
       );
     }
-  },
-  props: ["boardId"]
+  }
 };
 </script>
