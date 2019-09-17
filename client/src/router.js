@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Store from './store.js'
 import Boards from './views/Boards.vue'
 import Board from './views/Board.vue'
 import Login from './views/Login.vue'
 
-Vue.use(Router)
+Vue.use(Router, Store)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -22,7 +23,14 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      beforeEnter(to, from, next) {
+        let s = Store
+        if (from.name == 'boards') {
+          s.dispatch('logout')
+        }
+        return next()
+      }
     },
     {
       path: "*",
@@ -30,3 +38,4 @@ export default new Router({
     }
   ]
 })
+export default router

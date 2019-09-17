@@ -93,6 +93,7 @@
           return tasks;
         },
         set(value) {
+          let listId = this.boardList._id
           debugger
           // this.$store.commit('updateList', value)
         }
