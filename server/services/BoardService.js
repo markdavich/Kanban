@@ -3,9 +3,10 @@ import ListService from './ListService'
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
-let _listRepo = new ListService().repository
+let _listService = new ListService()
 
 let _schema = new Schema({
+  _id: { type: ObjectId },
   title: { type: String },
   description: { type: String, required: true },
   user: { type: ObjectId, ref: 'User', required: true },
@@ -16,7 +17,7 @@ let _schema = new Schema({
 _schema.pre('findOneAndRemove', function (next) {
   //lets find all the lists and remove them
   Promise.all([
-    _listRepo.deleteMany({ board: this._conditions._id })
+    _listService.deleteMany({ board: this._conditions._id })
   ])
     .then(() => next())
     .catch(err => next(err))
