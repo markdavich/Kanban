@@ -17,7 +17,7 @@
             ...
           </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item" @clike="deleteList">Remove List</a>
+            <a class="dropdown-item" @click="deleteList">Remove List</a>
             <a class="dropdown-item">Another action</a>
             <a class="dropdown-item">Something else here</a>
           </div>
@@ -25,8 +25,6 @@
       </div>
     </div>
 
-    <!-- <draggable class="list-group" tag="ul" :list="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true"
-      @end="isDragging=false" group="tasks"> -->
     <draggable
       v-model="myList"
       group="myGroup"
@@ -43,7 +41,6 @@
           :key="task._id"
         >
           {{ task.description }}
-          <!-- <span class="badge">{{ task.order }}</span> -->
         </li>
       </transition-group>
     </draggable>
