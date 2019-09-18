@@ -21,7 +21,7 @@
 
     <!-- this is where the comments go -->
     <div>
-      <comment v-for="comment in task.comments" :key="comment._id" :comment="comment">comments</comment>
+      <comment v-for="comment in task.comment" :key="comment._id" :comment="comment">comments</comment>
     </div>
   </div>
 </template>

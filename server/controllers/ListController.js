@@ -53,10 +53,11 @@ export default class ListController {
   async getTasksByListId(req, res, next) {
     try {
       let data = await _taskService.find({ list: req.params.listId }).populate({
-        path: 'comments',
+        path: 'comment',
         populate: {
-          path: 'user'
+          path: "user"
         }
+
       })
       return res.send(data);
     } catch (error) {

@@ -14,6 +14,7 @@ export default class TaskController {
     try {
       req.body.user = req.session.uid
       let data = await _taskService.create(req.body)
+      data = await data.populate('comment').execPopulate()
       return res.status(201).send(data)
     } catch (error) {
       error.message = "TaskController.js: create()"
