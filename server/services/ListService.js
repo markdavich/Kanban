@@ -12,10 +12,9 @@ let _schema = new Schema({
 
 //CASCADE ON DELETE
 _schema.pre('deleteMany', function (next) {
-  let _taskService = TaskService
   //lets find all the lists and remove them
   Promise.all([
-    _taskService.deleteMany({ list: this._conditions._id }),
+    TaskService.deleteMany({ list: this._conditions._id }),
   ])
     .then(() => next())
     .catch(err => next(err))
@@ -23,10 +22,10 @@ _schema.pre('deleteMany', function (next) {
 
 //CASCADE ON DELETE
 _schema.pre('findOneAndRemove', function (next) {
-  let _taskService = TaskService
+
   //lets find all the lists and remove them
   Promise.all([
-    _taskService.deleteMany({ list: this._conditions._id }),
+    TaskService.deleteMany({ list: this._conditions._id })
   ])
     .then(() => next())
     .catch(err => next(err))

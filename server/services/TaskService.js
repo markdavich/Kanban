@@ -13,9 +13,9 @@ let _schema = new Schema({
 
 })
 _schema.pre('deleteMany', function (next) {
-  let _commentService = CommentService//lets find all the lists and remove them
+  //lets find all the lists and remove them
   Promise.all([
-    _commentService.deleteMany({ list: this._conditions._id }),
+    CommentService.deleteMany({ list: this._conditions._id }),
   ])
     .then(() => next())
     .catch(err => next(err))
@@ -23,9 +23,9 @@ _schema.pre('deleteMany', function (next) {
 
 //cascade delete the comments
 _schema.pre('findOneAndRemove', function (next) {
-  let _commentService = CommentService//lets find all the lists and remove them
+  //lets find all the lists and remove them
   Promise.all([
-    _commentService.deleteMany({ task: this._conditions._id })
+    CommentService.deleteMany({ task: this._conditions._id })
   ])
     .then(() => next())
     .catch(err => next(err))

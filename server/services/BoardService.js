@@ -13,9 +13,9 @@ let _schema = new Schema({
 
 //CASCADE ON DELETE
 _schema.pre('findOneAndRemove', function (next) {
-  let _listService = ListService  //lets find all the lists and remove them
+  //lets find all the lists and remove them
   Promise.all([
-    _listService.deleteMany({ board: this._conditions._id })
+    ListService.deleteMany({ board: this._conditions._id })
   ])
     .then(() => next())
     .catch(err => next(err))
