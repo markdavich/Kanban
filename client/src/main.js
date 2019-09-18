@@ -11,18 +11,17 @@ Vue.mixin({
     userId() {
       return this.$store.state.user._id;
     },
-    // isAllowed(boardList) {
-    //   debugger;
-    //   let uid = this.$store.state.user._id;
+    isAllowed(creatorId) {
+      let uid = this.$store.state.user._id;
 
-    //   let collaborators = new Set(
-    //     this.$store.state.activeBoard.collaborators.map(c => {
-    //       return c._id;
-    //     })
-    //   );
-    //   let result = uid === boardList.user || collaborators.has(uid);
-    //   return result;
-    // }
+      let collaborators = new Set(
+        this.$store.state.activeBoard.collaborators.map(c => {
+          return c._id;
+        })
+      );
+      let result = uid === creatorId || collaborators.has(uid);
+      return result;
+    }
   }
 });
 

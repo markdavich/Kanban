@@ -1,7 +1,7 @@
 <template>
   <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <click-edit :initialValue="'Initial Value'" :placeHolder="'Title ---- '" :enterKeyPress="titleChange">
+      <click-edit :initialValue="boardList.title" :placeHolder="'List Title'" :enterKeyPress="titleChange">
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
@@ -9,7 +9,7 @@
             ...
           </button>
           <div class="dropdown-menu">
-            <a v-show="isAllowed" class="dropdown-item" @click="deleteList">Remove List</a>
+            <a v-show="isAllowed(boardList.user)" class="dropdown-item" @click="deleteList">Remove List</a>
             <a class="dropdown-item">Another action</a>
             <a class="dropdown-item">Something else here</a>
           </div>
@@ -19,9 +19,12 @@
 
     <draggable v-model="myList" group="myGroup" class="list-group" :move="checkMove" @start="startDrag" @add="onDrop">
       <transition-group type="transition" :name="'flip-list'">
-        <li :data-list="boardList._id" class="list-group-item" v-for="task in myList" :key="task._id">
+        <task :data-list="boardList._id" class="list-group-item" v-for="task in myList" :task="task" :key="task._id">
           {{ task.description }}
-        </li>
+        </task>
+        <!-- <li :data-list="boardList._id" class="list-group-item" v-for="task in myList" :key="task._id">
+          {{ task.description }}
+        </li> -->
       </transition-group>
     </draggable>
     <p class="new-task" @click="createNewTask">New Task</p>
@@ -29,6 +32,7 @@
 </template>
 
 <script>
+  import Task from "./Task";
   import draggable from "vuedraggable";
   import ClickEdit from "./ClickEdit";
   export default {
@@ -40,7 +44,8 @@
     },
     components: {
       draggable,
-      ClickEdit
+      ClickEdit,
+      Task
     },
     data() {
       return {
@@ -50,11 +55,6 @@
       };
     },
     methods: {
-      isAdmin() {
-        debugger;
-        return this.isAllowed(boardList);
-      },
-
       checkMove(event, originalEvent) {
         // Stuff
       },
@@ -63,6 +63,7 @@
       },
       startDrag(event) { },
       onDrop(event) {
+        debugger
         alert(
           "List.vue methods: onDrop() NOT IMPLEMENTED \n We need to post the new list id to the database"
         );
@@ -110,17 +111,17 @@
       }
     },
     computed: {
-      isAllowed() {
-        let uid = this.$store.state.user._id;
+      // isAllowed() {
+      //   let uid = this.$store.state.user._id;
 
-        let collaborators = new Set(
-          this.$store.state.activeBoard.collaborators.map(c => {
-            return c._id;
-          })
-        );
-        let result = uid === this.boardList.user || collaborators.has(uid);
-        return result;
-      },
+      //   let collaborators = new Set(
+      //     this.$store.state.activeBoard.collaborators.map(c => {
+      //       return c._id;
+      //     })
+      //   );
+      //   let result = uid === this.boardList.user || collaborators.has(uid);
+      //   return result;
+      // },
 
       dragOptions() {
         return {

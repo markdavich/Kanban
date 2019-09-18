@@ -1,0 +1,62 @@
+<template>
+  <!-- this is our title for tasks -->
+  <div class="task">
+    <div class="input-group mb-3">
+      <click-edit class="task-edit" :initialValue="''" :placeHolder="'Task...'" :enterKeyPress="clickEdit">
+      </click-edit>
+      <div class="input-group-append">
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
+            ...
+          </button>
+          <div class="dropdown-menu">
+            <a v-show="isAllowed(task.user)" class="dropdown-item" @click="deleteTask">Remove List</a>
+            <a @click="addComment" class="dropdown-item">Add comment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- this is where the comments go -->
+    <div>
+      <h1>comments</h1>
+    </div>
+  </div>
+</template>
+
+
+<script>
+  import ClickEdit from "./ClickEdit"
+  export default {
+    name: 'task',
+    components: {
+      ClickEdit
+    },
+    props: {
+      task: { type: Object }
+    },
+    data() {
+      return {}
+    },
+    computed: {},
+    methods: {
+      deleteTask() {
+        alert('Task.vue methods: deleteTask() not implemented\n\nsave the comment to database')
+      },
+      addComment() {
+        alert('Task.vue methods: addComment() not implemented\n\nsave the comment to database')
+      },
+      clickEdit(newValue) {
+        alert('Task.vue methods: clickEdit() not implemented\n\nsave the task description to database')
+      }
+    },
+  }
+</script>
+
+
+<style scoped>
+  .task-edit {
+    font-size: 1.1em;
+    background-color: lightgray;
+  }
+</style>

@@ -1,14 +1,7 @@
 <template>
-  <input
-    type="text"
-    v-bind:class="[editing ? 'editing' : 'dormant', 'input-group-prepend', 'form-control']"
-    v-model="editValue"
-    v-bind:placeholder="placeHolder"
-    v-on:click="click($event)"
-    v-on:keydown="keyDown($event)"
-    v-on:focusout="focusOut($event)"
-    v-bind:readonly="!editing"
-  />
+  <input type="text" v-bind:class="[editing ? 'editing' : 'dormant', 'input-group-prepend', 'form-control', 'my-class']"
+    v-model="editValue" v-bind:placeholder="placeHolder" v-on:click="click($event)" v-on:keydown="keyDown($event)"
+    v-on:focusout="focusOut($event)" v-bind:readonly="!editing" />
 </template>
 
 <script>
