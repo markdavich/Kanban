@@ -1,9 +1,13 @@
 <template>
   <div id="app">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <nav class="navbar navbar-light bg-light justify-content-between">
-      <a class="navbar-brand">Kanban</a>
+      <a class="navbar-brand"><i class="fab fa-kickstarter-k"></i>anban <i class="fas fa-umbrella-beach"></i>
+        <i class="fab fa-kickstarter-k"></i>abana</a>
 
       <form class="form-inline">
+        <i class="fas fa-sign-out-alt"></i>
         <router-link v-show="!isLogin" to="/login">logout</router-link>
 
       </form>
