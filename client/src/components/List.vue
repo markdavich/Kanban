@@ -6,7 +6,7 @@
       <div class="input-group-append">
         <div class="dropdown">
           <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
-            ...
+            <i class="fas fa-caret-down"></i>
           </button>
           <div class="dropdown-menu">
             <a v-show="isAllowed(boardList.user)" class="dropdown-item" @click="deleteList">Remove List</a>
@@ -27,7 +27,7 @@
         </li> -->
       </transition-group>
     </draggable>
-    <p class="new-task" @click="createNewTask">New Task</p>
+    <p class="new-task" @click="createNewTask"><i class="fas fa-tasks"> </i> New Task</p>
   </div>
 </template>
 

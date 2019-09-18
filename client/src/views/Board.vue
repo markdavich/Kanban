@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row board-title">
       <h1 class="board">board.title = {{ board.title }}</h1>
-      <button class="btn btn-primary" @click="createList">New List</button>
+      <button class="btn btn-primary" @click="createList"> <i class="fas fa-clipboard-list"></i> New List</button>
     </div>
     <div class="scrolling-wrapper">
       <list class="list" v-for="list in lists" :boardList="list"></list>

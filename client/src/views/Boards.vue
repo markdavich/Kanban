@@ -7,7 +7,9 @@
       <button type="submit">Create Board</button>
     </form>
     <div v-for="board in boards" :key="board._id">
-      <router-link :to="{name: 'board', params: {boardId: board._id}}">{{board.title}}</router-link>
+      <router-link :to="{name: 'board', params: {boardId: board._id}}"><i class="far fa-folder-open"></i>
+        {{board.title}}
+      </router-link>
     </div>
   </div>
 </template>
