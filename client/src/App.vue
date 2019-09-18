@@ -4,7 +4,7 @@
       <a class="navbar-brand">Kanban</a>
 
       <form class="form-inline">
-        <router-link to="/login">logout</router-link>
+        <router-link v-show="!isLogin" to="/login">logout</router-link>
 
       </form>
     </nav>
@@ -20,11 +20,7 @@
         let result = this.$route.name == "login"
         return result
       }
-    },
-
-
-
-
+    }
   };
 
 </script>

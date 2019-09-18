@@ -1,41 +1,41 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Store from './store.js'
-import Boards from './views/Boards.vue'
-import Board from './views/Board.vue'
-import Login from './views/Login.vue'
+import Vue from "vue";
+import Router from "vue-router";
+import Store from "./store.js";
+import Boards from "./views/Boards.vue";
+import Board from "./views/Board.vue";
+import Login from "./views/Login.vue";
 
-Vue.use(Router, Store)
+Vue.use(Router, Store);
 
 let router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'boards',
+      path: "/",
+      name: "boards",
       component: Boards
     },
     {
-      path: '/board/:boardId',
-      name: 'board',
+      path: "/board/:boardId",
+      name: "board",
       props: true,
       component: Board
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: Login,
       beforeEnter(to, from, next) {
-        let s = Store
-        if (from.name == 'boards') {
-          s.dispatch('logout')
+        let s = Store;
+        if (from.name != "login") {
+          s.dispatch("logout");
         }
-        return next()
+        return next();
       }
     },
     {
       path: "*",
-      redirect: '/'
+      redirect: "/"
     }
   ]
-})
-export default router
+});
+export default router;

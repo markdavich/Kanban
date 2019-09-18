@@ -37,7 +37,6 @@
       }
     },
     mounted() {
-
       this.$store.dispatch("getLists", this.boardId);
       this.$store.state.lists.forEach(element => {
         let listId = element._id;
@@ -47,9 +46,9 @@
 
     methods: {
       getTasksByListId(listId) {
-        debugger
-        let result = this.$store.state.tasks[listId]
-        return result
+        debugger;
+        let result = this.$store.state.tasks[listId];
+        return result;
       },
 
       createList() {

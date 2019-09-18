@@ -1,7 +1,14 @@
 <template>
-  <input type="text" v-bind:class="[editing ? 'editing' : 'dormant', 'input-group-prepend', 'form-control']"
-    v-model="editValue" v-bind:placeholder="placeHolder" v-on:click="click($event)" v-on:keydown="keyDown($event)"
-    v-on:focusout="focusOut($event)" v-bind:readonly="!editing" />
+  <input
+    type="text"
+    v-bind:class="[editing ? 'editing' : 'dormant', 'input-group-prepend', 'form-control']"
+    v-model="editValue"
+    v-bind:placeholder="placeHolder"
+    v-on:click="click($event)"
+    v-on:keydown="keyDown($event)"
+    v-on:focusout="focusOut($event)"
+    v-bind:readonly="!editing"
+  />
 </template>
 
 <script>
@@ -24,9 +31,17 @@
       this.editValue = this.initialValue;
     },
     methods: {
+      cancel(event) {
+        window.getSelection().removeAllRanges();
+        this.editing = false;
+        this.editValue = this.initialValue;
+
+        event.target.blur();
+      },
       click(event) {
         event.preventDefault();
         this.editing = true;
+        let pos = event.target.value.length;
 
         let element = event.target;
         // Modern browsers
@@ -52,15 +67,15 @@
             event.target.blur();
             break;
           case "Escape":
-            this.editing = false;
-            event.target.blur();
+            this.cancel(event);
             break;
           default:
         }
       },
       focusOut(event) {
-        this.$el.classList.remove("editing");
-        this.$el.classList.add("dormant");
+        this.cancel(event);
+        // this.$el.classList.remove("editing");
+        // this.$el.classList.add("dormant");
       }
     }
   };
@@ -79,10 +94,10 @@
   }
 
   .editing {
-    border-radius: 2px;
-    border: solid rgb(40, 148, 236) 2px;
+    /* border-radius: 2px; */
+    /* border: solid rgb(40, 148, 236) 2px; */
     cursor: text;
-    background-color: rgb(209, 209, 209);
+    /* background-color: rgb(209, 209, 209); */
   }
 
   .dormant {

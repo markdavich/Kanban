@@ -1,20 +1,47 @@
 <template>
   <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <click-edit :initialValue="'Initial Value'" :placeHolder="'Title ---- '" :enterKeyPress="titleChange">
+      <click-edit
+        :initialValue="'Initial Value'"
+        :placeHolder="'Title ---- '"
+        :enterKeyPress="titleChange"
+      >
       </click-edit>
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" @click="editList">
-          ...
-        </button>
+        <div class="dropdown">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            data-toggle="dropdown"
+          >
+            ...
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" @clike="deleteList">Remove List</a>
+            <a class="dropdown-item">Another action</a>
+            <a class="dropdown-item">Something else here</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- <draggable class="list-group" tag="ul" :list="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true"
       @end="isDragging=false" group="tasks"> -->
-    <draggable v-model="myList" group="myGroup" class="list-group">
+    <draggable
+      v-model="myList"
+      group="myGroup"
+      class="list-group"
+      :move="checkMove"
+      @start="startDrag"
+      @add="onDrop"
+    >
       <transition-group type="transition" :name="'flip-list'">
-        <li class="list-group-item" v-for="task in myList" :key="task._id">
+        <li
+          :data-list="boardList._id"
+          class="list-group-item"
+          v-for="task in myList"
+          :key="task._id"
+        >
           {{ task.description }}
           <!-- <span class="badge">{{ task.order }}</span> -->
         </li>
@@ -40,15 +67,25 @@
     },
     data() {
       return {
-        //list: [],
         editable: true,
         isDragging: false,
         delayedDragging: false
       };
     },
     methods: {
+      checkMove(event, originalEvent) {
+        // Stuff
+      },
       endDrag(e) {
         // debugger
+      },
+      startDrag(event) {},
+      onDrop(event) {
+        alert(
+          "List.vue methods: onDrop() NOT IMPLEMENTED \n We need to post the new list id to the database"
+        );
+        let sourceList = event.item.dataset.list;
+        let targetList = this.boardList._id;
       },
 
       createNewTask() {
@@ -63,8 +100,8 @@
       titleChange(newValue) {
         alert(`List.vue methods: titleChange(${newValue})`);
       },
-      editList() {
-        alert("list.vue methods editList() not implemented");
+      deleteList() {
+        alert("List.vue methods: deleteList() not implemented");
         //make it done
       },
       orderList() {
@@ -93,9 +130,14 @@
           return tasks;
         },
         set(value) {
-          let listId = this.boardList._id
-          debugger
-          // this.$store.commit('updateList', value)
+          let listId = this.boardList._id;
+
+          let payload = {
+            listId: listId,
+            tasks: value
+          };
+
+          this.$store.commit("setTasksByListId", payload);
         }
       }
     },
