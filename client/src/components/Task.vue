@@ -21,19 +21,20 @@
 
     <!-- this is where the comments go -->
     <div>
-      <h1>comments</h1>
+      <comment v-for="comment in task.comments" :key="comment._id" :comment="comment">comments</comment>
     </div>
   </div>
 </template>
 
 
 <script>
-
+  import Comment from "./Comment.vue"
   import ClickEdit from "./ClickEdit"
   export default {
     name: 'task',
     components: {
-      ClickEdit
+      ClickEdit,
+      Comment
     },
     props: {
       task: { type: Object }
@@ -47,6 +48,13 @@
         alert('Task.vue methods: deleteTask() not implemented\n\nsave the comment to database')
       },
       addComment() {
+        let comment = {
+          user: this.userId,
+          task: this.task._id,
+          board: this.task.board,
+          list: this.task.list
+        }
+        this.$store.dispatch("createComment", comment)
         alert('Task.vue methods: addComment() not implemented\n\nsave the comment to database')
       },
       clickEdit(newValue) {

@@ -47,6 +47,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async createComment({ dispatch }, comment) {
+      try {
+        let endpoint = "comments"
+        let axiosRes = await api.post(endpoint, comment)
+        dispatch("getTasksByListId", comment.list)
+
+      } catch (error) {
+        debugger
+      }
+    },
+
     async deleteListById({ dispatch }, listId) {
       try {
         let endPoint = `lists/${listId}`;

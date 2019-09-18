@@ -6,6 +6,7 @@ let _schema = new Schema({
   task: { type: ObjectId, ref: 'Task', required: true },
   user: { type: ObjectId, ref: 'User', required: true },
   board: { type: ObjectId, ref: 'Board', required: true },
+  list: { type: ObjectId, ref: 'List', required: true },
   description: { type: String, required: true, default: "change when we can add" }
 
 })
