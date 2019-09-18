@@ -7,7 +7,6 @@ let _taskService = new TaskService()
 
 let _schema = new Schema({
   title: { type: String },
-  author: { type: ObjectId, ref: 'User' },
   user: { type: ObjectId, ref: 'User', required: true },
   board: { type: ObjectId, ref: 'Board', required: true }
 }, { timestamps: true })
@@ -16,7 +15,7 @@ let _schema = new Schema({
 _schema.pre('deleteMany', function (next) {
   //lets find all the lists and remove them
   Promise.all([
-    //_taskService.deleteMany({ listId: this._conditions_id }),
+    _taskService.deleteMany({ list: this._conditions_id }),
   ])
     .then(() => next())
     .catch(err => next(err))
