@@ -2,7 +2,6 @@ import mongoose from "mongoose"
 import CommentService from "./CommentService"
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
-let _commentService = new CommentService()
 
 let _schema = new Schema({
   description: { type: String, required: true, default: "New Task" },
@@ -14,7 +13,7 @@ let _schema = new Schema({
 
 })
 _schema.pre('deleteMany', function (next) {
-  //lets find all the lists and remove them
+  let _commentService = CommentService//lets find all the lists and remove them
   Promise.all([
     _commentService.deleteMany({ list: this._conditions._id }),
   ])
@@ -24,7 +23,7 @@ _schema.pre('deleteMany', function (next) {
 
 //cascade delete the comments
 _schema.pre('findOneAndRemove', function (next) {
-  //lets find all the lists and remove them
+  let _commentService = CommentService//lets find all the lists and remove them
   Promise.all([
     _commentService.deleteMany({ task: this._conditions._id })
   ])

@@ -7,6 +7,7 @@ export default class TaskController {
     this.router = express.Router()
       .use(Authorize.authenticated)
       .post('', this.create)
+      .delete('/deleteTasksByListId/:id', this.deleteTasksByListId)
   }
 
   async create(req, res, next) {
@@ -17,6 +18,15 @@ export default class TaskController {
     } catch (error) {
       error.message = "TaskController.js: create()"
       next(error)
+    }
+  }
+
+  async deleteTasksByListId(req, res, next) {
+    try {
+      await _taskService.deleteMany({ list: req.params.id })
+      return res.send("tasks deleted")
+    } catch (error) {
+
     }
   }
 }

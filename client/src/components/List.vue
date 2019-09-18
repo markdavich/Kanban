@@ -1,25 +1,15 @@
 <template>
   <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <click-edit
-        :initialValue="'Initial Value'"
-        :placeHolder="'Title ---- '"
-        :enterKeyPress="titleChange"
-      >
+      <click-edit :initialValue="'Initial Value'" :placeHolder="'Title ---- '" :enterKeyPress="titleChange">
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            data-toggle="dropdown"
-          >
+          <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
             ...
           </button>
           <div class="dropdown-menu">
-            <a v-show="isAllowed" class="dropdown-item" @click="deleteList"
-              >Remove List</a
-            >
+            <a v-show="isAllowed" class="dropdown-item" @click="deleteList">Remove List</a>
             <a class="dropdown-item">Another action</a>
             <a class="dropdown-item">Something else here</a>
           </div>
@@ -27,21 +17,9 @@
       </div>
     </div>
 
-    <draggable
-      v-model="myList"
-      group="myGroup"
-      <!-- class="list-group"
-      :move="checkMove"
-      @start="startDrag" -->
-      @add="onDrop"
-    >
+    <draggable v-model="myList" group="myGroup" class="list-group" :move="checkMove" @start="startDrag" @add="onDrop">
       <transition-group type="transition" :name="'flip-list'">
-        <li
-          :data-list="boardList._id"
-          class="list-group-item"
-          v-for="task in myList"
-          :key="task._id"
-        >
+        <li :data-list="boardList._id" class="list-group-item" v-for="task in myList" :key="task._id">
           {{ task.description }}
         </li>
       </transition-group>
@@ -83,7 +61,7 @@
       endDrag(e) {
         // debugger
       },
-      startDrag(event) {},
+      startDrag(event) { },
       onDrop(event) {
         alert(
           "List.vue methods: onDrop() NOT IMPLEMENTED \n We need to post the new list id to the database"
@@ -105,8 +83,20 @@
         alert(`List.vue methods: titleChange(${newValue})`);
       },
       deleteList() {
-        alert("List.vue methods: deleteList() not implemented");
-        //make it done
+        let list = this.boardList
+
+        this.$store.dispatch('deleteListById', list._id);
+
+        // This is just copied from Board.vue mounted:
+        // this.$store.dispatch("getBoardById", list.board);
+
+        this.$store.dispatch("getLists", list.board);
+        this.$store.state.lists.forEach(element => {
+          let listId = element._id;
+          this.$store.dispatch("getTasksByListId", listId);
+        });
+
+        // alert("List.vue methods: deleteList() not implemented");
       },
       orderList() {
         this.list = this.list.sort((one, two) => {
