@@ -19,6 +19,9 @@ let router = new Router({
       name: "board",
       props: true,
       component: Board
+      // beforeEnter(to, from, next){
+
+      // }
     },
     {
       path: "/login",

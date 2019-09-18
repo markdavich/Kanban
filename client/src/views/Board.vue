@@ -17,10 +17,6 @@
       List
     },
     computed: {
-      boardId() {
-        let result = this.$route.params.boardId;
-        return result;
-      },
       lists() {
         return this.$store.state.lists;
       },
@@ -30,14 +26,17 @@
       board() {
         return (
           //FIXME This does not work on page reload because the boards array is empty in the store
-          this.$store.state.boards.find(b => b._id == this.boardId) || {
+          this.$store.state.boards.find(
+            b => b._id == this.$route.params.boardId
+          ) || {
             title: "Loading..."
           }
         );
       }
     },
     mounted() {
-      this.$store.dispatch("getLists", this.boardId);
+      this.$store.dispatch("getBoardById", this.$route.params.boardId);
+      this.$store.dispatch("getLists", this.$route.params.boardId);
       this.$store.state.lists.forEach(element => {
         let listId = element._id;
         this.$store.dispatch("getTasksByListId", listId);
@@ -58,7 +57,7 @@
         let result = {
           title: "",
           user: this.userId, // userId is a mixin in main.js (client)
-          board: this.boardId
+          board: this.$route.params.boardId
         };
         return result;
       }

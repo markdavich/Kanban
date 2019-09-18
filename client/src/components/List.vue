@@ -17,7 +17,9 @@
             ...
           </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item" @click="deleteList">Remove List</a>
+            <a v-show="isAllowed" class="dropdown-item" @click="deleteList"
+              >Remove List</a
+            >
             <a class="dropdown-item">Another action</a>
             <a class="dropdown-item">Something else here</a>
           </div>
@@ -28,9 +30,9 @@
     <draggable
       v-model="myList"
       group="myGroup"
-      class="list-group"
+      <!-- class="list-group"
       :move="checkMove"
-      @start="startDrag"
+      @start="startDrag" -->
       @add="onDrop"
     >
       <transition-group type="transition" :name="'flip-list'">
@@ -70,6 +72,11 @@
       };
     },
     methods: {
+      isAdmin() {
+        debugger;
+        return this.isAllowed(boardList);
+      },
+
       checkMove(event, originalEvent) {
         // Stuff
       },
@@ -113,6 +120,18 @@
       }
     },
     computed: {
+      isAllowed() {
+        let uid = this.$store.state.user._id;
+
+        let collaborators = new Set(
+          this.$store.state.activeBoard.collaborators.map(c => {
+            return c._id;
+          })
+        );
+        let result = uid === this.boardList.user || collaborators.has(uid);
+        return result;
+      },
+
       dragOptions() {
         return {
           animation: 0,
