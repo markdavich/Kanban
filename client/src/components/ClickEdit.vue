@@ -54,7 +54,9 @@
       keyDown(event) {
         switch (event.key) {
           case "Enter":
+            let newValue = this.editValue
             this.enterKeyPress(this.editValue);
+            this.initialValue = newValue
             this.editValue = "";
             this.editing = false;
             event.target.blur();

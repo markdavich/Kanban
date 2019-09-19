@@ -39,7 +39,6 @@
         // let result = this.$store.state.activeBoard
         return this.$store.state.Boards.activeBoard
       },
-
     },
     mounted() {
       this.$store.dispatch("getBoardById", this.$route.params.boardId);
@@ -68,9 +67,12 @@
         return result;
       },
       changeBoardTitle(newValue) {
-        alert(
-          "Board.vue methods: changeBoardTitle() NOT IMPLEMENTD\n\nThis needs to change the board title"
-        );
+        let board = {
+          _id: this.board._id,
+          title: newValue
+        }
+
+        this.$store.dispatch('editBoard', board)
       }
     }
   };

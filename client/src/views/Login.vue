@@ -37,7 +37,7 @@ export default {
     };
   },
   beforeCreate() {
-    if (this.$store.state.user._id) {
+    if (this.$store.state.Auth.user._id) {
       this.$router.push({ name: "boards" });
     }
   },

@@ -57,7 +57,7 @@ export default class BoardsController {
   async edit(req, res, next) {
     try {
       let data = await _boardService.findOneAndUpdate(
-        { _id: req.params.id, user: req.session.uid },
+        { _id: req.params.id },
         req.body,
         { new: true }
       );

@@ -15,6 +15,7 @@ export default class ListController {
       // WE NEED TO MOVE THIS TO BoardController.
       .get("/boards/:boardId", this.getByBoardId)
       .get("/:listId/tasks", this.getTasksByListId)
+      .put("/:listId/tasks", this.editTask)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete)
@@ -23,6 +24,22 @@ export default class ListController {
 
   defaultRoute(req, res, next) {
     next({ status: 404, message: "No Such Route" });
+  }
+
+  async editTask(req, res, next) {
+    try {
+      let task = await _taskService.findOneAndUpdate(
+        {_id: req.body._id}, 
+        req.body,
+        { new: true }
+      )
+
+      return res.status(201).send(task)
+
+    } catch (error) {
+      error.message = "TaskController.js: editTask()";
+      next(error);
+    }
   }
 
   async createTask(req, res, next) {
@@ -88,7 +105,7 @@ export default class ListController {
   async edit(req, res, next) {
     try {
       let data = await _listService.findOneAndUpdate(
-        { _id: req.params.id, user: req.session.uid },
+        { _id: req.params.id },
         req.body,
         { new: true }
       );

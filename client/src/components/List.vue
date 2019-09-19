@@ -79,7 +79,9 @@
       },
 
       titleChange(newValue) {
-        alert(`List.vue methods: titleChange(${newValue})`);
+        let newList = this.boardList
+        newList.title = newValue
+        this.$store.dispatch('editList', newList)
       },
       deleteList() {
         let list = this.boardList;
@@ -109,18 +111,6 @@
       }
     },
     computed: {
-      // isAllowed() {
-      //   let uid = this.$store.state.user._id;
-
-      //   let collaborators = new Set(
-      //     this.$store.state.activeBoard.collaborators.map(c => {
-      //       return c._id;
-      //     })
-      //   );
-      //   let result = uid === this.boardList.user || collaborators.has(uid);
-      //   return result;
-      // },
-
       dragOptions() {
         return {
           animation: 0,

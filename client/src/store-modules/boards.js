@@ -57,6 +57,18 @@ export default {
           dispatch("getBoards");
         }
       } catch (error) { }
+    },
+
+    async editBoard({ commit, dispatch }, board) {
+      try {
+        let endPoint = `${board._id}`
+        let axiosRes = await api.put(endPoint, board)
+        let edit = axiosRes.data
+        commit('setActiveBoard', edit)
+        dispatch('getBoards')
+      } catch (error) {
+        console.error('store-modules > boards.js > actions: editBoard()')
+      }
     }
   }
 }

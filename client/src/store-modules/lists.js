@@ -36,7 +36,9 @@ export default {
         if (axiosRes) {
           dispatch("getLists", list.board);
         }
-      } catch (error) { }
+      } catch (error) {
+        console.error('store-modules > lists.js > actions > createList()')
+      }
     },
     async getLists({ commit }, boardId) {
       let endPoint = `boards/${boardId}`;
@@ -44,13 +46,28 @@ export default {
         let axiosRes = await api.get(endPoint);
         let lists = axiosRes.data;
         commit("setLists", lists);
-      } catch (error) { }
+      } catch (error) {
+        console.error('store-modules > lists.js > actions > getLists()')
+      }
     },
     async deleteListById({ dispatch }, listId) {
       try {
         let endPoint = `${listId}`;
         let axiosRes = await api.delete(endPoint);
-      } catch (error) { }
+      } catch (error) {
+        console.error('store-modules > lists.js > actions > deleteListById()')
+      }
+    },
+
+    async editList({ dispatch, commit }, list) {
+      try {
+        let endPoint = `${list._id}`
+        await api.put(endPoint, list)
+
+        dispatch('getLists', list.board)
+      } catch (error) {
+        console.error('store-modules > lists.js > actions > editList()')
+      }
     }
   }
 }

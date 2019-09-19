@@ -70,9 +70,9 @@
         );
       },
       clickEdit(newValue) {
-        alert(
-          "Task.vue methods: clickEdit() not implemented\n\nsave the task description to database"
-        );
+        let task = this.task
+        task.title = newValue
+        this.$store.dispatch('editTask', task)
       }
     },
     mounted() {

@@ -37,7 +37,7 @@ export default {
           dispatch("getTasksByListId", task.list);
         }
       } catch (error) {
-        debugger;
+        console.error("store-modules > tasks.js > actions > createNewTask()")
       }
     },
 
@@ -54,7 +54,17 @@ export default {
 
         commit("setTasksByListId", payload);
       } catch (error) {
-        debugger;
+        console.error("store-modules > tasks.js > actions > getTasksByListId()")
+      }
+    },
+
+    async editTask({ dispatch }, task) {
+      try {
+        let endPoint = `${task.list}/tasks`
+        await api.put(endPoint, task)
+        dispatch('getTasksByListId', task.list)
+      } catch (error) {
+        console.error("store-modules > tasks.js > actions > editTask()")
       }
     }
   }
