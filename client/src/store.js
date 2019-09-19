@@ -68,7 +68,7 @@ export default new Vuex.Store({
       try {
         let endPoint = `lists/${listId}`;
         let axiosRes = await api.delete(endPoint);
-      } catch (error) {}
+      } catch (error) { }
     },
 
     async getBoardById({ dispatch, commit }, boardId) {
@@ -117,7 +117,7 @@ export default new Vuex.Store({
         if (axiosRes) {
           dispatch("getLists", list.board);
         }
-      } catch (error) {}
+      } catch (error) { }
     },
     async getLists({ commit }, boardId) {
       let endPoint = `lists/boards/${boardId}`;
@@ -125,7 +125,7 @@ export default new Vuex.Store({
         let axiosRes = await api.get(endPoint);
         let lists = axiosRes.data;
         commit("setLists", lists);
-      } catch (error) {}
+      } catch (error) { }
     },
 
     //#region -- AUTH STUFF --
@@ -166,7 +166,7 @@ export default new Vuex.Store({
         let axiosRes = await api.get("boards");
         let boards = axiosRes.data;
         commit("setBoards", boards);
-      } catch (error) {}
+      } catch (error) { }
 
       // api.get('boards')
       //   .then(res => {
@@ -175,11 +175,12 @@ export default new Vuex.Store({
     },
     async addBoard({ commit, dispatch }, boardData) {
       try {
+        debugger
         let axiosRes = await api.post("boards", boardData);
         if (axiosRes) {
           dispatch("getBoards");
         }
-      } catch (error) {}
+      } catch (error) { }
     }
     //#endregion
   }

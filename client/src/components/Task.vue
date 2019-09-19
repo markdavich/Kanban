@@ -2,33 +2,18 @@
   <!-- this is our title for tasks -->
   <div class="task">
     <div class="input-group mb-3">
-      <click-edit
-        class="task-edit"
-        :initialValue="''"
-        :placeHolder="'Task...'"
-        :enterKeyPress="clickEdit"
-      >
+      <click-edit class="task-edit" :initialValue="''" :placeHolder="'Task...'" :enterKeyPress="clickEdit">
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            data-toggle="dropdown"
-          >
+          <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
             <i class="fas fa-caret-down"></i>
           </button>
 
           <div class="dropdown-menu">
-            <a
-              v-show="isAllowed(task.user)"
-              class="dropdown-item"
-              @click="deleteTask"
-              ><i class="far fa-trash-alt"></i> Remove Task</a
-            >
-            <a @click="addComment" class="dropdown-item"
-              ><i class="far fa-plus-square"></i> Add comment</a
-            >
+            <a v-show="isAllowed(task.user)" class="dropdown-item" @click="deleteTask"><i class="far fa-trash-alt"></i>
+              Remove Task</a>
+            <a @click="addComment" class="dropdown-item"><i class="far fa-plus-square"></i> Add comment</a>
           </div>
         </div>
       </div>
@@ -38,11 +23,7 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          <comment
-            v-for="comment in comments"
-            :key="comment._id"
-            :comment="comment"
-          ></comment>
+          <comment v-for="comment in comments" :key="comment._id" :comment="comment"></comment>
         </div>
       </div>
     </div>

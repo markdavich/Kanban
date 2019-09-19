@@ -1,11 +1,9 @@
 <template>
   <div class="container-fluid test">
     <div class="row board-title">
-      <click-edit
-        :initialValue="board.title"
-        :placeHolder="'Board Title...'"
-        :enterKeyPress="changeBoardTitle"
-      ></click-edit>
+      <click-edit v-if="board.title" :initialValue="board.title" :placeHolder="'Board Title...'"
+        :enterKeyPress="changeBoardTitle">
+      </click-edit>
       <!-- <h1 class="board">board.title = {{ board.title }}</h1> -->
       <button class="btn btn-primary" @click="createList">
         <i class="fas fa-clipboard-list"></i> New List
@@ -33,15 +31,15 @@
         return this.$store.state.tasks;
       },
       board() {
-        return (
-          //FIXME This does not work on page reload because the boards array is empty in the store
-          this.$store.state.boards.find(
-            b => b._id == this.$route.params.boardId
-          ) || {
-            title: "Loading..."
-          }
-        );
-      }
+        //forceUpdate is forcing the view to update on load not recommended all the time
+        // if (!this.$store.state.activeBoard.title) {
+        //   this.$forceUpdate()
+        //   return
+        // }
+        // let result = this.$store.state.activeBoard
+        return this.$store.state.activeBoard
+      },
+
     },
     mounted() {
       this.$store.dispatch("getBoardById", this.$route.params.boardId);

@@ -4,7 +4,6 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 let _schema = new Schema({
-  _id: { type: ObjectId },
   title: { type: String },
   description: { type: String, required: true },
   user: { type: ObjectId, ref: 'User', required: true },
