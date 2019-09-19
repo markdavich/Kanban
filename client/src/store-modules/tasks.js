@@ -60,7 +60,7 @@ export default {
 
     async editTask({ dispatch }, task) {
       try {
-        let endPoint = `${task.list}/tasks`
+        let endPoint = `${task.list}/tasks/${task._id}`
         await api.put(endPoint, task)
         dispatch('getTasksByListId', task.list)
       } catch (error) {

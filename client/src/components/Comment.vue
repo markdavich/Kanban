@@ -30,9 +30,9 @@
         return result;
       },
       submitEdit(newValue) {
-        alert(
-          'Comment.vue methods: submitEdit(newValue) NOT IMPLEMENTED\n\nThis should set the comment "description" to "newValue"'
-        );
+        let comment = this.comment
+        comment.description = newValue
+        this.$store.dispatch('editComment', comment)
       },
       deleteComment() {
         alert(

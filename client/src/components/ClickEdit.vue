@@ -15,6 +15,7 @@
     components: {},
     data() {
       return {
+        initialValueToUse: "",
         editValue: "",
         editing: false
       };
@@ -22,6 +23,7 @@
     computed: {},
     mounted() {
       this.editValue = this.initialValue;
+      this.initialValueToUse = this.initialValue
     },
     methods: {
       cancel(event) {
@@ -56,10 +58,11 @@
           case "Enter":
             let newValue = this.editValue
             this.enterKeyPress(this.editValue);
-            this.initialValue = newValue
-            this.editValue = "";
             this.editing = false;
             event.target.blur();
+
+            this.initialValueToUse = newValue;
+            this.editValue = newValue;
             break;
           case "Escape":
             this.cancel(event);

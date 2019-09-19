@@ -15,7 +15,7 @@ export default class ListController {
       // WE NEED TO MOVE THIS TO BoardController.
       .get("/boards/:boardId", this.getByBoardId)
       .get("/:listId/tasks", this.getTasksByListId)
-      .put("/:listId/tasks", this.editTask)
+      .put("/:listId/tasks/:taskId", this.editTask)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete)
@@ -28,8 +28,9 @@ export default class ListController {
 
   async editTask(req, res, next) {
     try {
+      
       let task = await _taskService.findOneAndUpdate(
-        {_id: req.body._id}, 
+        { _id: req.body._id },
         req.body,
         { new: true }
       )

@@ -2,7 +2,8 @@
   <!-- this is our title for tasks -->
   <div class="task">
     <div class="input-group mb-3">
-      <click-edit class="task-edit" :initialValue="''" :placeHolder="'Task...'" :enterKeyPress="clickEdit">
+      <click-edit class="task-edit" :initialValue="task.description" :placeHolder="'Task...'"
+        :enterKeyPress="clickEdit">
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
@@ -70,13 +71,17 @@
         );
       },
       clickEdit(newValue) {
-        let task = this.task
-        task.title = newValue
+        let task = {
+          _id: this.task._id,
+          description: newValue,
+          list: this.task.list
+        }
+
         this.$store.dispatch('editTask', task)
       }
     },
     mounted() {
-      this.$store.dispatch("getCommentsByTaskId", this.task);
+      this.$store.dispatch("getCommentsByTaskId", this.task._id);
     }
   };
 </script>

@@ -11,7 +11,8 @@ export default class TaskController {
       // .post("", this.create)
       .post("/:taskId/comments", this.createComment)
       .post("/:taskId/get-comments", this.getCommentsByTaskId)
-      .delete("/:taskId/comments/:commentId", this.deleteComment);
+      .delete("/:taskId/comments/:commentId", this.deleteComment)
+      .put("/:taskId/comments/:commentId", this.editComment)
   }
 
   // async create(req, res, next) {
@@ -41,7 +42,7 @@ export default class TaskController {
   async getCommentsByTaskId(req, res, next) {
     try {
       let taskId = req.params.taskId;
-      let userId = req.body.user;
+      // let userId = req.body.user;
       let tasks = await _commentService
         .find({ task: taskId })
         .populate('user');
@@ -59,6 +60,21 @@ export default class TaskController {
       return res.send(deleted);
     } catch (error) {
       error.message = "TaskController.js: deleteComment()";
+      next(error);
+    }
+  }
+
+  async editComment(req, res, next) {
+    try {
+      let editedComment = await _commentService.findOneAndUpdate(
+        { _id: req.params.commentId },
+        req.body,
+        { new: true }
+      )
+
+      return res.status(201).send(editedComment);
+    } catch (error) {
+      error.message = "TaskController.js: editComment()";
       next(error);
     }
   }

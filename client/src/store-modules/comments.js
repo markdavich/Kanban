@@ -38,18 +38,18 @@ export default {
         let endPoint = `${comment.task}/comments`;
         let axiosRes = await api.post(comment);
         if (axiosRes) {
-          dispatch("getCommentsByTaskId", comment.task);
+          dispatch("getCommentsByTaskId", comment.task._id);
         }
       } catch (error) {
         console.error("store-modules/comments.js actions: createComment()");
       }
     },
 
-    async getCommentsByTaskId({ commit }, task) {
+    async getCommentsByTaskId({ commit }, taskId) {
       try {
-        let taskId = task._id;
+        // let taskId = task._id;
         let endPoint = `${taskId}/get-comments`;
-        let axiosRes = await api.post(endPoint, task);
+        let axiosRes = await api.post(endPoint, {});
         let comments = axiosRes.data;
 
         let payload = {
@@ -70,9 +70,19 @@ export default {
         let endPoint = `${comment.task}/comments/${comment._id}`;
         await api.delete(endPoint);
 
-        dispatch("getCommentsByTaskId", comment.task);
+        dispatch("getCommentsByTaskId", comment.task._id);
       } catch (error) {
         console.error("store-modules/comments.js actions: deleteComment()");
+      }
+    },
+
+    async editComment({ dispatch }, comment) {
+      try {
+        let endPoint = `${comment.task}/comments/${comment._id}`
+        await api.put(endPoint, comment)
+        dispatch("getCommentsByTaskId", comment.task)
+      } catch (error) {
+        console.error("store-modules/comments.js actions: editComment()");
       }
     }
   }
