@@ -1,15 +1,28 @@
 <template>
   <div class="col-3 list mr-3">
     <div class="input-group mb-3">
-      <click-edit :initialValue="boardList.title" :placeHolder="'List Title'" :enterKeyPress="titleChange">
+      <click-edit
+        :initialValue="boardList.title"
+        :placeHolder="'List Title'"
+        :enterKeyPress="titleChange"
+      >
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
-          <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            data-toggle="dropdown"
+          >
             <i class="fas fa-caret-down"></i>
           </button>
           <div class="dropdown-menu">
-            <a v-show="isAllowed(boardList.user)" class="dropdown-item" @click="deleteList">Remove List</a>
+            <a
+              v-show="isAllowed(boardList.user)"
+              class="dropdown-item"
+              @click="deleteList"
+              >Remove List</a
+            >
             <a class="dropdown-item">Another action</a>
             <a class="dropdown-item">Something else here</a>
           </div>
@@ -17,9 +30,22 @@
       </div>
     </div>
 
-    <draggable v-model="myList" group="myGroup" class="list-group" :move="checkMove" @start="startDrag" @add="onDrop">
+    <draggable
+      v-model="myList"
+      group="myGroup"
+      class="list-group"
+      :move="checkMove"
+      @start="startDrag"
+      @add="onDrop"
+    >
       <transition-group type="transition" :name="'flip-list'">
-        <task :data-list="boardList._id" class="list-group-item" v-for="task in myList" :task="task" :key="task._id">
+        <task
+          :data-list="boardList._id"
+          class="list-group-item"
+          v-for="task in myList"
+          :task="task"
+          :key="task._id"
+        >
           {{ task.description }}
         </task>
         <!-- <li :data-list="boardList._id" class="list-group-item" v-for="task in myList" :key="task._id">
@@ -27,7 +53,9 @@
         </li> -->
       </transition-group>
     </draggable>
-    <p class="new-task" @click="createNewTask"><i class="fas fa-tasks"> </i> New Task</p>
+    <p class="new-task" @click="createNewTask">
+      <i class="fas fa-tasks"> </i> New Task
+    </p>
   </div>
 </template>
 
@@ -61,9 +89,8 @@
       endDrag(e) {
         // debugger
       },
-      startDrag(event) { },
+      startDrag(event) {},
       onDrop(event) {
-        debugger
         alert(
           "List.vue methods: onDrop() NOT IMPLEMENTED \n We need to post the new list id to the database"
         );
@@ -84,9 +111,9 @@
         alert(`List.vue methods: titleChange(${newValue})`);
       },
       deleteList() {
-        let list = this.boardList
+        let list = this.boardList;
 
-        this.$store.dispatch('deleteListById', list._id);
+        this.$store.dispatch("deleteListById", list._id);
 
         // This is just copied from Board.vue mounted:
         // this.$store.dispatch("getBoardById", list.board);

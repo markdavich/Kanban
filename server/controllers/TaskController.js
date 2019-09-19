@@ -1,33 +1,65 @@
-import _taskService from "../services/TaskService"
-import express from 'express'
-import { Authorize } from '../middleware/authorize.js'
+import _taskService from "../services/TaskService";
+import _commentService from "../services/CommentService";
+import express from "express";
+import { Authorize } from "../middleware/authorize.js";
 
 export default class TaskController {
   constructor() {
-    this.router = express.Router()
+    this.router = express
+      .Router()
       .use(Authorize.authenticated)
-      .post('', this.create)
-      .delete('/deleteTasksByListId/:id', this.deleteTasksByListId)
+      .post("", this.create)
+      .post("/:taskId/comments", this.createComment)
+      .post("/:taskId/get-comments", this.getCommentsByTaskId)
+      .delete("/:taskId/comments/:commentId", this.deleteComment);
   }
 
   async create(req, res, next) {
     try {
-      req.body.user = req.session.uid
-      let data = await _taskService.create(req.body)
-      data = await data.populate('comment').execPopulate()
-      return res.status(201).send(data)
+      req.body.user = req.session.uid;
+      let data = await _taskService.create(req.body);
+      data = await data.populate("comment").execPopulate();
+      return res.status(201).send(data);
     } catch (error) {
-      error.message = "TaskController.js: create()"
-      next(error)
+      error.message = "TaskController.js: create()";
+      next(error);
     }
   }
 
-  async deleteTasksByListId(req, res, next) {
+  // COMMENTS
+  async createComment(req, res, next) {
     try {
-      await _taskService.deleteMany({ list: req.params.id })
-      return res.send("tasks deleted")
+      let newComment = req.body;
+      let comment = await _commentService.create(newComment);
+      return res.send(comment);
     } catch (error) {
+      error.message = "TaskController.js: createTask()";
+      next(error);
+    }
+  }
 
+  async getCommentsByTaskId(req, res, next) {
+    try {
+      let taskId = req.params.taskId;
+      let userId = req.body.user;
+      let tasks = await _commentService
+        .find({ task: taskId })
+        .populate('user');
+      return res.send(tasks);
+    } catch (error) {
+      error.message = "TaskController.js: getCommentsByTaskId()";
+      next(error);
+    }
+  }
+
+  async deleteComment(req, res, next) {
+    try {
+      let commentId = req.params.commentId;
+      let deleted = await _commentService.deleteOne({ _id: commentId });
+      return res.send(deleted);
+    } catch (error) {
+      error.message = "TaskController.js: deleteComment()";
+      next(error);
     }
   }
 }

@@ -2,36 +2,58 @@
   <!-- this is our title for tasks -->
   <div class="task">
     <div class="input-group mb-3">
-      <click-edit class="task-edit" :initialValue="''" :placeHolder="'Task...'" :enterKeyPress="clickEdit">
+      <click-edit
+        class="task-edit"
+        :initialValue="''"
+        :placeHolder="'Task...'"
+        :enterKeyPress="clickEdit"
+      >
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
-          <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            data-toggle="dropdown"
+          >
             <i class="fas fa-caret-down"></i>
           </button>
 
           <div class="dropdown-menu">
-            <a v-show="isAllowed(task.user)" class="dropdown-item" @click="deleteTask"><i class="far fa-trash-alt"></i>
-              Remove Task</a>
-            <a @click="addComment" class="dropdown-item"><i class="far fa-plus-square"></i> Add comment</a>
+            <a
+              v-show="isAllowed(task.user)"
+              class="dropdown-item"
+              @click="deleteTask"
+              ><i class="far fa-trash-alt"></i> Remove Task</a
+            >
+            <a @click="addComment" class="dropdown-item"
+              ><i class="far fa-plus-square"></i> Add comment</a
+            >
           </div>
         </div>
       </div>
     </div>
 
     <!-- this is where the comments go -->
-    <div>
-      <comment v-for="comment in task.comment" :key="comment._id" :comment="comment">comments</comment>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <comment
+            v-for="comment in comments"
+            :key="comment._id"
+            :comment="comment"
+          ></comment>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-
 <script>
-  import Comment from "./Comment.vue"
-  import ClickEdit from "./ClickEdit"
+  import Comment from "./Comment.vue";
+  import ClickEdit from "./ClickEdit";
   export default {
-    name: 'task',
+    name: "task",
     components: {
       ClickEdit,
       Comment
@@ -40,12 +62,19 @@
       task: { type: Object }
     },
     data() {
-      return {}
+      return {};
     },
-    computed: {},
+    computed: {
+      comments() {
+        let comments = this.$store.state.Comments.comments[this.task._id] || [];
+        return comments;
+      }
+    },
     methods: {
       deleteTask() {
-        alert('Task.vue methods: deleteTask() not implemented\n\nsave the comment to database')
+        alert(
+          "Task.vue methods: deleteTask() not implemented\n\nsave the comment to database"
+        );
       },
       addComment() {
         let comment = {
@@ -53,17 +82,23 @@
           task: this.task._id,
           board: this.task.board,
           list: this.task.list
-        }
-        this.$store.dispatch("createComment", comment)
-        alert('Task.vue methods: addComment() not implemented\n\nsave the comment to database')
+        };
+        this.$store.dispatch("createComment", comment);
+        alert(
+          "Task.vue methods: addComment() not implemented\n\nsave the comment to database"
+        );
       },
       clickEdit(newValue) {
-        alert('Task.vue methods: clickEdit() not implemented\n\nsave the task description to database')
+        alert(
+          "Task.vue methods: clickEdit() not implemented\n\nsave the task description to database"
+        );
       }
     },
-  }
+    mounted() {
+      this.$store.dispatch("getCommentsByTaskId", this.task);
+    }
+  };
 </script>
-
 
 <style scoped>
   .task-edit {

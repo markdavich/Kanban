@@ -4,6 +4,9 @@ import Axios from "axios";
 import router from "./router";
 import AuthService from "./AuthService";
 
+// Store Modules
+import Comments from "./store-modules/comments";
+
 Vue.use(Vuex);
 
 //Allows axios to work locally or live
@@ -24,6 +27,9 @@ export default new Vuex.Store({
     lists: [],
     tasks: {},
     activeBoard: {}
+  },
+  modules: {
+    Comments
   },
   mutations: {
     setActiveBoard(state, board) {
@@ -47,25 +53,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async createComment({ dispatch }, comment) {
-      try {
-        let endpoint = "comments"
-        let axiosRes = await api.post(endpoint, comment)
-        dispatch("getTasksByListId", comment.list)
+    // async createComment({ dispatch }, comment) {
+    //   try {
+    //     let endpoint = "comments"
+    //     let axiosRes = await api.post(endpoint, comment)
+    //     dispatch("getTasksByListId", comment.list)
 
-      } catch (error) {
-        debugger
-      }
-    },
+    //   } catch (error) {
+    //     debugger
+    //   }
+    // },
 
     async deleteListById({ dispatch }, listId) {
       try {
         let endPoint = `lists/${listId}`;
-        let axiosRes = await api.delete(endPoint)
-
-      } catch (error) {
-
-      }
+        let axiosRes = await api.delete(endPoint);
+      } catch (error) {}
     },
 
     async getBoardById({ dispatch, commit }, boardId) {
@@ -114,7 +117,7 @@ export default new Vuex.Store({
         if (axiosRes) {
           dispatch("getLists", list.board);
         }
-      } catch (error) { }
+      } catch (error) {}
     },
     async getLists({ commit }, boardId) {
       let endPoint = `lists/boards/${boardId}`;
@@ -122,7 +125,7 @@ export default new Vuex.Store({
         let axiosRes = await api.get(endPoint);
         let lists = axiosRes.data;
         commit("setLists", lists);
-      } catch (error) { }
+      } catch (error) {}
     },
 
     //#region -- AUTH STUFF --
@@ -163,7 +166,7 @@ export default new Vuex.Store({
         let axiosRes = await api.get("boards");
         let boards = axiosRes.data;
         commit("setBoards", boards);
-      } catch (error) { }
+      } catch (error) {}
 
       // api.get('boards')
       //   .then(res => {
@@ -176,12 +179,8 @@ export default new Vuex.Store({
         if (axiosRes) {
           dispatch("getBoards");
         }
-      } catch (error) { }
+      } catch (error) {}
     }
-    //#endregion
-
-    //#region -- LISTS --
-
     //#endregion
   }
 });

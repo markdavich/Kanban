@@ -1,13 +1,16 @@
 <template>
-  <div class="comment">
-    <div class="user">{{ authorInitial }}</div>
+  <div class="comment row d-flex">
+    <div class="user">{{ authorInitial() }}</div>
     <click-edit
       class="comment-edit"
       :initialValue="comment.description"
       :placeHolder="'Comment...'"
       :enterKeyPress="submitEdit"
-    ></click-edit>
-    <div class="delete" v-show="isAllowed(comment.user)" @click="deleteComment">X</div>
+    >
+    </click-edit>
+    <div class="delete" @click="deleteComment">
+      X
+    </div>
   </div>
 </template>
 
@@ -18,9 +21,13 @@
     props: {
       comment: { type: Object }
     },
+    components: {
+      ClickEdit
+    },
     methods: {
       authorInitial() {
-        let result = task.user.name.charAt(0).toUpperCase;
+        let result = this.comment.user.name.charAt(0).toUpperCase();
+        return result;
       },
       submitEdit(newValue) {
         alert(
@@ -29,10 +36,10 @@
       },
       deleteComment() {
         alert(
-          'Comment.vue methods: deleteComment() NOT IMPLEMENTED\n\nThis should delete a comment'
+          "Comment.vue methods: deleteComment() NOT IMPLEMENTED\n\nThis should delete a comment"
         );
       }
-     }
+    }
   };
 </script>
 
@@ -57,6 +64,7 @@
   }
 
   .delete {
+    float: right;
     cursor: pointer;
     color: red;
     display: none;
