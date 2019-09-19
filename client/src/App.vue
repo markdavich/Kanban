@@ -12,6 +12,7 @@
 
       </form>
     </nav>
+    
     <router-view />
   </div>
 </template>

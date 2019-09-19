@@ -1,8 +1,15 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid test">
     <div class="row board-title">
-      <h1 class="board">board.title = {{ board.title }}</h1>
-      <button class="btn btn-primary" @click="createList"> <i class="fas fa-clipboard-list"></i> New List</button>
+      <click-edit
+        :initialValue="board.title"
+        :placeHolder="'Board Title...'"
+        :enterKeyPress="changeBoardTitle"
+      ></click-edit>
+      <!-- <h1 class="board">board.title = {{ board.title }}</h1> -->
+      <button class="btn btn-primary" @click="createList">
+        <i class="fas fa-clipboard-list"></i> New List
+      </button>
     </div>
     <div class="scrolling-wrapper">
       <list class="list" v-for="list in lists" :boardList="list"></list>
@@ -11,10 +18,12 @@
 </template>
 <script>
   import List from "../components/List";
+  import ClickEdit from "../components/ClickEdit";
   export default {
     name: "board",
     components: {
-      List
+      List,
+      ClickEdit
     },
     computed: {
       lists() {
@@ -60,6 +69,11 @@
           board: this.$route.params.boardId
         };
         return result;
+      },
+      changeBoardTitle(newValue) {
+        alert(
+          "Board.vue methods: changeBoardTitle() NOT IMPLEMENTD\n\nThis needs to change the board title"
+        );
       }
     }
   };
@@ -73,10 +87,14 @@
     overflow-x: scroll !important;
     overflow-y: hidden !important;
     white-space: nowrap !important;
-    height: 90vh;
+    max-height: 78vh !important;
   }
 
   .list {
     display: inline-block !important;
+  }
+
+  .test {
+    max-height: 75vh !important;
   }
 </style>
