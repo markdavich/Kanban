@@ -1,4 +1,5 @@
 import Axios from 'axios'
+
 let baseUrl = location.host.includes('localhost') ? '//localhost:3000/' : '/'
 
 let auth = Axios.create({

@@ -5,9 +5,9 @@
         :enterKeyPress="changeBoardTitle">
       </click-edit>
       <!-- <h1 class="board">board.title = {{ board.title }}</h1> -->
-      <button class="btn btn-primary" @click="createList">
+      <!-- <button class="btn btn-primary" @click="createList">
         <i class="fas fa-clipboard-list"></i> New List
-      </button>
+      </button> -->
     </div>
     <div class="scrolling-wrapper">
       <list class="list" v-for="list in lists" :boardList="list"></list>
@@ -57,17 +57,17 @@
         return result;
       },
 
-      createList() {
-        this.$store.dispatch("createList", this.getList());
-      },
-      getList() {
-        let result = {
-          title: "",
-          user: this.userId, // userId is a mixin in main.js (client)
-          board: this.$route.params.boardId
-        };
-        return result;
-      },
+      // createList() {
+      //   this.$store.dispatch("createList", this.getList());
+      // },
+      // getList() {
+      //   let result = {
+      //     title: "",
+      //     user: this.userId, // userId is a mixin in main.js (client)
+      //     board: this.$route.params.boardId
+      //   };
+      //   return result;
+      // },
       changeBoardTitle(newValue) {
         alert(
           "Board.vue methods: changeBoardTitle() NOT IMPLEMENTD\n\nThis needs to change the board title"
