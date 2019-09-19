@@ -1,0 +1,61 @@
+import router from "../router";
+import AuthService from "../AuthService";
+import Axios from "axios"
+import template from "./template";
+import Vue from "vue";
+
+
+const CONTROLLER_ROUTE = 'api/lists'
+// EXAMPLE: const CONTROLLER_ROUTE = 'api/cars'
+
+
+let base = window.location.host.includes("localhost:8080")
+  ? "//localhost:3000/"
+  : "/";
+
+let api = Axios.create({
+  baseURL: base + CONTROLLER_ROUTE,
+  timeout: 3000,
+  withCredentials: true
+});
+
+export default {
+  state: {
+    tasks: {}
+  },
+  mutations: {
+    setTasksByListId(state, payload) {
+      Vue.set(state.tasks, payload.listId, payload.tasks);
+    }
+  },
+  actions: {
+    async createNewTask({ commit, dispatch }, task) {
+      try {
+        let endPoint = `${task.list}/tasks`
+        let axiosRes = await api.post(endPoint, task);
+        if (axiosRes) {
+          dispatch("getTasksByListId", task.list);
+        }
+      } catch (error) {
+        debugger;
+      }
+    },
+
+    async getTasksByListId({ commit, dispatch }, listId) {
+      try {
+        let endPoint = `${listId}/tasks`;
+        let axiosRes = await api.get(endPoint);
+        let tasks = axiosRes.data;
+
+        let payload = {
+          tasks: tasks,
+          listId: listId
+        };
+
+        commit("setTasksByListId", payload);
+      } catch (error) {
+        debugger;
+      }
+    }
+  }
+}

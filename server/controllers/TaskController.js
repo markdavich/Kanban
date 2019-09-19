@@ -8,23 +8,23 @@ export default class TaskController {
     this.router = express
       .Router()
       .use(Authorize.authenticated)
-      .post("", this.create)
+      // .post("", this.create)
       .post("/:taskId/comments", this.createComment)
       .post("/:taskId/get-comments", this.getCommentsByTaskId)
       .delete("/:taskId/comments/:commentId", this.deleteComment);
   }
 
-  async create(req, res, next) {
-    try {
-      req.body.user = req.session.uid;
-      let data = await _taskService.create(req.body);
-      data = await data.populate("comment").execPopulate();
-      return res.status(201).send(data);
-    } catch (error) {
-      error.message = "TaskController.js: create()";
-      next(error);
-    }
-  }
+  // async create(req, res, next) {
+  //   try {
+  //     req.body.user = req.session.uid;
+  //     let data = await _taskService.create(req.body);
+  //     data = await data.populate("comment").execPopulate();
+  //     return res.status(201).send(data);
+  //   } catch (error) {
+  //     error.message = "TaskController.js: create()";
+  //     next(error);
+  //   }
+  // }
 
   // COMMENTS
   async createComment(req, res, next) {

@@ -8,13 +8,13 @@ import AuthService from "./AuthService";
 Vue.mixin({
   methods: {
     userId() {
-      return this.$store.state.user._id;
+      return this.$store.state.Auth.user._id;
     },
     isAllowed(creatorId) {
-      let uid = this.$store.state.user._id;
+      let uid = this.$store.state.Auth.user._id;
 
       let collaborators = new Set(
-        this.$store.state.activeBoard.collaborators.map(c => {
+        this.$store.state.Boards.activeBoard.collaborators.map(c => {
           return c._id;
         })
       );

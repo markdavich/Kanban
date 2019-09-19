@@ -30,7 +30,7 @@
     },
     computed: {
       boards() {
-        return this.$store.state.boards;
+        return this.$store.state.Boards.boards;
       }
     },
     methods: {

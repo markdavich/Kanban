@@ -25,10 +25,10 @@
     },
     computed: {
       lists() {
-        return this.$store.state.lists;
+        return this.$store.state.Lists.lists;
       },
       tasks() {
-        return this.$store.state.tasks;
+        return this.$store.state.Tasks.tasks;
       },
       board() {
         //forceUpdate is forcing the view to update on load not recommended all the time
@@ -37,14 +37,14 @@
         //   return
         // }
         // let result = this.$store.state.activeBoard
-        return this.$store.state.activeBoard
+        return this.$store.state.Boards.activeBoard
       },
 
     },
     mounted() {
       this.$store.dispatch("getBoardById", this.$route.params.boardId);
       this.$store.dispatch("getLists", this.$route.params.boardId);
-      this.$store.state.lists.forEach(element => {
+      this.$store.state.List.lists.forEach(element => {
         let listId = element._id;
         this.$store.dispatch("getTasksByListId", listId);
       });
@@ -52,8 +52,7 @@
 
     methods: {
       getTasksByListId(listId) {
-        debugger;
-        let result = this.$store.state.tasks[listId];
+        let result = this.$store.state.Tasks.tasks[listId];
         return result;
       },
 

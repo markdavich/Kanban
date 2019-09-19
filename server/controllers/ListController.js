@@ -10,6 +10,7 @@ export default class ListController {
       .use(Authorize.authenticated)
       .get("", this.getAll)
       .get("/:id", this.getById)
+      .post("/:listId/tasks/", this.createTask)
 
       // WE NEED TO MOVE THIS TO BoardController.
       .get("/boards/:boardId", this.getByBoardId)
@@ -22,6 +23,17 @@ export default class ListController {
 
   defaultRoute(req, res, next) {
     next({ status: 404, message: "No Such Route" });
+  }
+
+  async createTask(req, res, next) {
+    try {
+      req.body.user = req.session.uid;
+      let data = await _taskService.create(req.body);
+      return res.status(201).send(data);
+    } catch (error) {
+      error.message = "TaskController.js: create()";
+      next(error);
+    }
   }
 
   async getAll(req, res, next) {

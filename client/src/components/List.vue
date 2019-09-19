@@ -2,28 +2,15 @@
   <div class="col-3 list mr-3">
     <!-- TITLE -->
     <div class="input-group mb-3">
-      <click-edit
-        :initialValue="boardList.title"
-        :placeHolder="'List Title'"
-        :enterKeyPress="titleChange"
-      >
+      <click-edit :initialValue="boardList.title" :placeHolder="'List Title'" :enterKeyPress="titleChange">
       </click-edit>
       <div class="input-group-append">
         <div class="dropdown">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            data-toggle="dropdown"
-          >
+          <button class="btn btn-outline-secondary" type="button" data-toggle="dropdown">
             <i class="fas fa-caret-down"></i>
           </button>
           <div class="dropdown-menu">
-            <a
-              v-show="isAllowed(boardList.user)"
-              class="dropdown-item"
-              @click="deleteList"
-              >Remove List</a
-            >
+            <a v-show="isAllowed(boardList.user)" class="dropdown-item" @click="deleteList">Remove List</a>
             <a class="dropdown-item">Another action</a>
             <a class="dropdown-item">Something else here</a>
           </div>
@@ -32,22 +19,9 @@
     </div>
 
     <!-- DRAGGABLE CONTAINER -->
-    <draggable
-      v-model="myList"
-      group="myGroup"
-      class="list-group"
-      :move="checkMove"
-      @start="startDrag"
-      @add="onDrop"
-    >
+    <draggable v-model="myList" group="myGroup" class="list-group" :move="checkMove" @start="startDrag" @add="onDrop">
       <transition-group type="transition" :name="'flip-list'">
-        <task
-          :data-list="boardList._id"
-          class="list-group-item"
-          v-for="task in myList"
-          :task="task"
-          :key="task._id"
-        >
+        <task :data-list="boardList._id" class="list-group-item" v-for="task in myList" :task="task" :key="task._id">
           {{ task.description }}
         </task>
       </transition-group>
@@ -65,9 +39,7 @@
   export default {
     name: "list",
     props: {
-      boardList: { type: Object, required: true },
-      //  list: [],
-      listTasks: []
+      boardList: { type: Object, required: true }
     },
     components: {
       draggable,
@@ -88,7 +60,7 @@
       endDrag(e) {
         // debugger
       },
-      startDrag(event) {},
+      startDrag(event) { },
       onDrop(event) {
         alert(
           "List.vue methods: onDrop() NOT IMPLEMENTED \n We need to post the new list id to the database"
@@ -118,7 +90,7 @@
         // this.$store.dispatch("getBoardById", list.board);
 
         this.$store.dispatch("getLists", list.board);
-        this.$store.state.lists.forEach(element => {
+        this.$store.state.Lists.lists.forEach(element => {
           let listId = element._id;
           this.$store.dispatch("getTasksByListId", listId);
         });
@@ -159,7 +131,7 @@
       },
       myList: {
         get() {
-          let tasks = this.$store.state.tasks[this.boardList._id] || [];
+          let tasks = this.$store.state.Tasks.tasks[this.boardList._id] || [];
           return tasks;
         },
         set(value) {
@@ -186,7 +158,6 @@
       }
     },
     mounted() {
-      // this.list = this.$store.state.tasks[this.boardList_id]
       let listId = this.boardList._id;
       this.$store.dispatch("getTasksByListId", listId);
     }
