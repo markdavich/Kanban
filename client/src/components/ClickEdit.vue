@@ -98,4 +98,10 @@
     cursor: pointer;
     background-color: transparent;
   }
+
+  textarea {
+    resize: none;
+    overflow-wrap: break-word;
+    overflow: hidden;
+  }
 </style>

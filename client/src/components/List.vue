@@ -1,5 +1,6 @@
 <template>
   <div class="col-3 list mr-3">
+    <!-- TITLE -->
     <div class="input-group mb-3">
       <click-edit
         :initialValue="boardList.title"
@@ -30,6 +31,7 @@
       </div>
     </div>
 
+    <!-- DRAGGABLE CONTAINER -->
     <draggable
       v-model="myList"
       group="myGroup"
@@ -48,9 +50,6 @@
         >
           {{ task.description }}
         </task>
-        <!-- <li :data-list="boardList._id" class="list-group-item" v-for="task in myList" :key="task._id">
-          {{ task.description }}
-        </li> -->
       </transition-group>
     </draggable>
     <p class="new-task" @click="createNewTask">
@@ -231,8 +230,8 @@
   }
 
   .list-group {
-    border: solid red 1px;
-    min-height: 20px;
+    /* border: solid red 1px; */
+    min-height: 50px;
   }
 
   .list-group-item {
