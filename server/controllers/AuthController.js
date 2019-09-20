@@ -11,12 +11,44 @@ export default class AuthController {
             .post('/login', this.login)
             .use(Authorize.authenticated)
             .get('/authenticate', this.authenticate)
+            .get('/users', this.getUsers)
             .delete('/logout', this.logout)
             .use(this.defaultRoute)
     }
 
     defaultRoute(req, res, next) {
         next({ status: 404, message: 'No Such Route' })
+    }
+
+    async getUsers(req, res, next) {
+        try {
+
+            _userService.find({}, function (err, users) {
+                var userMap = {};
+                let userArray = []
+
+                users.forEach(function (user) {
+                    userArray.push({
+                        _id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        imgUrl: user.imgUrl,
+                        color: user.color
+                    })
+
+                    // userArray.push(user)
+                    // userMap[user._id] = user;
+                });
+
+                res.send(userArray);
+            });
+
+            // let users = _userService.find({})
+            // return res.status(201).send(users)
+        } catch (error) {
+            error.message = 'AuthController.js: getUsers()'
+            next(error)
+        }
     }
     async register(req, res, next) {
         //VALIDATE PASSWORD LENGTH

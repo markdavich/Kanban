@@ -3,9 +3,6 @@ import bcrypt from 'bcryptjs'
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 
-
-
-
 //bcrypt uses hashing and salt to obfiscate your password 
 const SALT = 10
 
@@ -15,7 +12,8 @@ let _schema = new Schema({
   //every email must be unique on the database
   email: { type: String, required: true, unique: true },
   hash: { type: String, required: true },
-  imgUrl: { type: String }
+  imgUrl: { type: String },
+  color: {type: String, default: '#FFFFFF'}
 }, { timestamps: true })
 
 //schema.methods are used to add a method to a Model instance

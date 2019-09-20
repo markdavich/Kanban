@@ -36,7 +36,9 @@ Vue.mixin({
 
 async function init() {
   let user = await AuthService.Authenticate();
+
   if (user) {
+    store.dispatch('getUsers')
     store.commit("setUser", user);
   } else {
     router.push({ name: "login" });

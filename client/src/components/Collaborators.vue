@@ -9,9 +9,9 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Collaborator Email</span>
       </div>
-      <input type="text" class="form-control" placeholder="e-Mail">
+      <input v-model="email" type="text" class="form-control" placeholder="e-Mail">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Add</button>
+        <button v-show="isEmail" class="btn btn-outline-secondary" type="button">Add</button>
       </div>
     </div>
 
@@ -39,10 +39,28 @@
       },
       collaborators() {
         let result = this.$store.state.Collaborators.collaborators[this.boardId]
+      },
+      emails() {
+
+        let users = this.$store.state.Auth.users
+
+        let emailArray = users.map(user => {
+          return user.email
+        })
+
+        let usersSet = new Set(emailArray)
+
+        return usersSet
+      },
+      isEmail() {
+        let result = this.emails.has(this.email)
+        return result
       }
     },
     data() {
-      return {}
+      return {
+        email: ''
+      }
     },
     methods: {
       close() {
