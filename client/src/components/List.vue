@@ -169,12 +169,16 @@
     font-size: 1.4em;
   }
 
-  .btn-outline-secondary {
-    border: none !important;
+  .input-group-append {
+    z-index: 0;
   }
 
-  .dropdown {
-    z-index: 0 !important;
+  .input-group-append:hover {
+    z-index: 1000;
+  }
+
+  .btn-outline-secondary {
+    border: none !important;
   }
 
   .list {
