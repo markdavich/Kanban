@@ -6,7 +6,12 @@ import AuthService from "./AuthService";
 //Vue.config.productionTip = false
 
 import MyModal from './components/Modal.vue'
+import Collaborators from './components/Collaborators'
+import Collaborator from './components/Collaborator'
+
 Vue.component('my-modal', MyModal);
+Vue.component('collaborators', Collaborators);
+Vue.component('collaborator', Collaborator);
 
 
 Vue.mixin({

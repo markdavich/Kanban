@@ -27,6 +27,8 @@
     <!-- <my-modal @close="showModal = false" :show-modal="showModal"></my-modal> -->
     <my-modal :closeCallBack="modalCloseCallBack" :showModal="showModal">
       <user v-if="modalUsage === MODAL_USAGE.USER" />
+      <collaborators v-if="modalUsage === MODAL_USAGE.COLLABORATORS" :cancelCallBack="modalCloseCallBack">
+      </collaborators>
     </my-modal>
   </div>
 </template>
