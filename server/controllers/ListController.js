@@ -16,6 +16,7 @@ export default class ListController {
       .get("/boards/:boardId", this.getByBoardId)
       .get("/:listId/tasks", this.getTasksByListId)
       .put("/:listId/tasks/:taskId", this.editTask)
+      .delete("/:listId/tasks/:taskId", this.deleteTask)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete)
@@ -26,9 +27,21 @@ export default class ListController {
     next({ status: 404, message: "No Such Route" });
   }
 
+  async deleteTask(req, res, next) {
+    let taskId = req.params.taskId
+
+    try {
+      let deletedTask = await _taskService.findOneAndRemove({ _id: taskId })
+      return res.status(201).send(deletedTask)
+    } catch (error) {
+      error.message = "TaskController.js: deleteTask()";
+      next(error);
+    }
+  }
+
   async editTask(req, res, next) {
     try {
-      
+
       let task = await _taskService.findOneAndUpdate(
         { _id: req.body._id },
         req.body,

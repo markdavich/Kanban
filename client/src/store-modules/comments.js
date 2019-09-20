@@ -35,10 +35,11 @@ export default {
   actions: {
     async createComment({ dispatch }, comment) {
       try {
-        let endPoint = `${comment.task}/comments`;
+        let taskId = comment.task
+        let endPoint = `${taskId}/comments`;
         let axiosRes = await api.post(endPoint, comment);
         if (axiosRes) {
-          dispatch("getCommentsByTaskId", comment.task._id);
+          dispatch("getCommentsByTaskId", taskId);
         }
       } catch (error) {
         console.error("store-modules/comments.js actions: createComment()");

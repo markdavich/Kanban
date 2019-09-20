@@ -75,6 +75,18 @@ export default {
       } catch (error) {
         console.error("store-modules > tasks.js > actions > moveTask()")
       }
+    },
+
+    async deleteTask({ dispatch }, task) {
+      let taskId = task._id
+      let listId = task.list
+      let endPoint = `${listId}/tasks/${taskId}`
+      try {
+        await api.delete(endPoint)
+        dispatch('getTasksByListId', listId)
+      } catch (error) {
+        console.error("store-modules > tasks.js > actions > deleteTask()")
+      }
     }
   }
 }

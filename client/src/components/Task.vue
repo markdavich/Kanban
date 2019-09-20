@@ -54,11 +54,10 @@
     },
     methods: {
       deleteTask() {
-        alert(
-          "Task.vue methods: deleteTask() not implemented\n\nsave the comment to database"
-        );
+        this.$store.dispatch('deleteTask', this.task)
       },
       addComment() {
+        debugger
         let comment = {
           user: this.userId(),
           task: this.task._id,
@@ -66,9 +65,6 @@
           list: this.task.list
         };
         this.$store.dispatch("createComment", comment);
-        alert(
-          "Task.vue methods: addComment() not implemented\n\nsave the comment to database"
-        );
       },
       clickEdit(newValue) {
         let task = {
