@@ -1,8 +1,18 @@
 <template>
   <form class="collaborator-form">
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="e-mail">Collaborator Email</label>
       <input type="text" class="form-control" id="e-mail" placeholder="e-Mail">
+    </div> -->
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Collaborator Email</span>
+      </div>
+      <input type="text" class="form-control" placeholder="e-Mail">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">Add</button>
+      </div>
     </div>
 
     <ul class="collaborators">
@@ -11,8 +21,7 @@
     </ul>
 
     <div class="button-container">
-      <button type="submit" class="btn btn-primary">Save</button>
-      <button type="submit" class="btn btn-primary">Cancel</button>
+      <button @click="close" class="btn btn-primary">Ok</button>
     </div>
   </form>
 </template>
@@ -35,7 +44,11 @@
     data() {
       return {}
     },
-    methods: {}
+    methods: {
+      close() {
+        this.cancelCallBack()
+      }
+    }
   }
 </script>
 
