@@ -57,7 +57,6 @@
         this.$store.dispatch('deleteTask', this.task)
       },
       addComment() {
-        debugger
         let comment = {
           user: this.userId(),
           task: this.task._id,

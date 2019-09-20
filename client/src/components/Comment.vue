@@ -1,12 +1,8 @@
 <template>
   <div class="comment row d-flex">
     <div class="user">{{ authorInitial() }}</div>
-    <click-edit
-      class="comment-edit"
-      :initialValue="comment.description"
-      :placeHolder="'Comment...'"
-      :enterKeyPress="submitEdit"
-    >
+    <click-edit class="comment-edit" :initialValue="comment.description" :placeHolder="'Comment...'"
+      :enterKeyPress="submitEdit">
     </click-edit>
     <div class="delete" @click="deleteComment">
       X
@@ -35,9 +31,7 @@
         this.$store.dispatch('editComment', comment)
       },
       deleteComment() {
-        alert(
-          "Comment.vue methods: deleteComment() NOT IMPLEMENTED\n\nThis should delete a comment"
-        );
+        this.$store.dispatch('deleteComment', this.comment)
       }
     }
   };
@@ -91,7 +85,7 @@
     color: rgb(65, 65, 65);
   }
 
-  .comment-edit:hover + .delete {
+  .comment-edit:hover+.delete {
     display: inline-block;
   }
 </style>

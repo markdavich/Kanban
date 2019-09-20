@@ -68,10 +68,13 @@ export default {
 
     async deleteComment({ dispatch }, comment) {
       try {
-        let endPoint = `${comment.task}/comments/${comment._id}`;
+        let commentId = comment._id
+        let taskId = comment.task
+
+        let endPoint = `${taskId}/comments/${commentId}`;
         await api.delete(endPoint);
 
-        dispatch("getCommentsByTaskId", comment.task._id);
+        dispatch("getCommentsByTaskId", taskId);
       } catch (error) {
         console.error("store-modules/comments.js actions: deleteComment()");
       }
@@ -79,9 +82,11 @@ export default {
 
     async editComment({ dispatch }, comment) {
       try {
-        let endPoint = `${comment.task}/comments/${comment._id}`
+        let commentId = comment._id
+        let taskId = comment.task
+        let endPoint = `${taskId}/comments/${commentId}`
         await api.put(endPoint, comment)
-        dispatch("getCommentsByTaskId", comment.task)
+        dispatch("getCommentsByTaskId", taskId)
       } catch (error) {
         console.error("store-modules/comments.js actions: editComment()");
       }
