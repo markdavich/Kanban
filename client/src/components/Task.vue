@@ -86,4 +86,12 @@
     font-size: 1.1em;
     background-color: rgba(211, 211, 211, 0);
   }
+
+  .btn-outline-secondary {
+    border: none !important;
+  }
+
+  .dropdown {
+    z-index: 0 !important;
+  }
 </style>

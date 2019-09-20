@@ -173,6 +173,10 @@
     border: none !important;
   }
 
+  .dropdown {
+    z-index: 0 !important;
+  }
+
   .list {
     display: inline-block;
   }
