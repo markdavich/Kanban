@@ -20,10 +20,12 @@
         editing: false
       };
     },
-    computed: {},
+    computed: {
+
+    },
     mounted() {
-      this.editValue = this.initialValue;
-      this.initialValueToUse = this.initialValue
+      this.editValue = this.initialValue
+      this.initialValueToUse = this.initialValue;
     },
     methods: {
       cancel(event) {
