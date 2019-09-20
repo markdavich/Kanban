@@ -1,10 +1,10 @@
 <template>
-  <div class="comment row d-flex">
+  <div v-if="comment" class="comment row d-flex">
     <div class="user">{{ authorInitial() }}</div>
     <click-edit class="comment-edit" :initialValue="comment.description" :placeHolder="'Comment...'"
       :enterKeyPress="submitEdit">
     </click-edit>
-    <div class="delete" @click="deleteComment">
+    <div v-if="canDelete" class="delete" @click="deleteComment">
       X
     </div>
   </div>
@@ -16,6 +16,12 @@
     name: "comment",
     props: {
       comment: { type: Object }
+    },
+    computed: {
+      canDelete() {
+        let result = this.isAllowed(this.comment.user._id)
+        return result
+      }
     },
     components: {
       ClickEdit
