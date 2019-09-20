@@ -94,7 +94,9 @@ export default class BoardsController {
   async getCollaborators(req, res, next) {
     try {
       let boardId = req.params.boardId
-      let collaborators = await _collaboratorService.find({ board: boardId })
+      let collaborators = await _collaboratorService
+        .find({ board: boardId }).populate('user')
+        
       return res.status(201).send(collaborators)
     } catch (error) {
       error.message = 'BoardControllers.js getCollaborators()'

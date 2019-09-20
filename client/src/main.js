@@ -12,13 +12,14 @@ Vue.mixin({
     },
     isAllowed(creatorId) {
       let uid = this.$store.state.Auth.user._id;
-
-      let collaborators = new Set(
-        this.$store.state.Boards.activeBoard.collaborators.map(c => {
+      let boardId = this.$store.state.Boards.activeBoard._id
+      let collaborators = this.$store.state.Collaborators.collaborators[boardId] || []
+      let collaboratorIds = new Set(
+        collaborators.map(c => {
           return c._id;
         })
       );
-      let result = uid === creatorId || collaborators.has(uid);
+      let result = uid === creatorId || collaboratorIds.has(uid);
       return result;
     }
   }

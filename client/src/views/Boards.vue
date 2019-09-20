@@ -21,7 +21,12 @@
   export default {
     name: "boards",
     mounted() {
+      console.log('Boards.vue mounted(): Try using promises so this can run in the background')
       this.$store.dispatch("getBoards");
+      this.$store.state.Boards.boards.forEach(board => {
+        let boardId = board._id
+        this.$store.dispatch("getCollaborators", boardId)
+      })
     },
     data() {
       return {

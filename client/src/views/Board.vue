@@ -40,7 +40,7 @@
       console.log('Board.vue mounted(): try using store-modules/boards.js actions: loadBoard()')
       this.$store.dispatch("getBoardById", this.$route.params.boardId);
       this.$store.dispatch("getLists", this.$route.params.boardId);
-      this.$store.state.List.lists.forEach(element => {
+      this.$store.state.Lists.lists.forEach(element => {
         let listId = element._id;
         this.$store.dispatch("getTasksByListId", listId);
       });
