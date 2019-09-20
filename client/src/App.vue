@@ -12,6 +12,8 @@
             <i class="fas fa-clipboard-list"></i> New List
           </button>
 
+          <button @click="editUser">Edit User</button>
+
           <router-link id="log-out" v-show="!isLogin" to="/login"> logout <i class="fas fa-sign-out-alt"></i>
           </router-link>
 
@@ -20,12 +22,22 @@
 
       <router-view />
     </div>
+    <user v-if="editingUser" :closeCallBack="userEditCloseCallBack"></user>
   </div>
 </template>
 
 <script>
+  import User from "./components/User"
   export default {
     name: "App",
+    components: {
+      User
+    },
+    data() {
+      return {
+        editingUser: false
+      }
+    },
     computed: {
       backgroundImg() {
         let url = ''
@@ -68,6 +80,12 @@
           board: this.$route.params.boardId
         };
         return result;
+      },
+      editUser() {
+        this.editingUser = true
+      },
+      userEditCloseCallBack() {
+        this.editingUser = false
       }
     },
   };
