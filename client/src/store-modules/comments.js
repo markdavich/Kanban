@@ -36,7 +36,7 @@ export default {
     async createComment({ dispatch }, comment) {
       try {
         let endPoint = `${comment.task}/comments`;
-        let axiosRes = await api.post(comment);
+        let axiosRes = await api.post(endPoint, comment);
         if (axiosRes) {
           dispatch("getCommentsByTaskId", comment.task._id);
         }

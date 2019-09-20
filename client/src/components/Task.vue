@@ -60,7 +60,7 @@
       },
       addComment() {
         let comment = {
-          user: this.userId,
+          user: this.userId(),
           task: this.task._id,
           board: this.task.board,
           list: this.task.list

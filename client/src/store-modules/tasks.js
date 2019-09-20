@@ -66,6 +66,15 @@ export default {
       } catch (error) {
         console.error("store-modules > tasks.js > actions > editTask()")
       }
+    },
+
+    async moveTask({ commit, dispatch }, movedTask) {
+      try {
+        let endPoint = `${movedTask.list}/tasks/${movedTask._id}`
+        await api.put(endPoint, movedTask)
+      } catch (error) {
+        console.error("store-modules > tasks.js > actions > moveTask()")
+      }
     }
   }
 }

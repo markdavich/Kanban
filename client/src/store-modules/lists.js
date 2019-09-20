@@ -26,7 +26,8 @@ export default {
   mutations: {
     setLists(state, lists) {
       // Check for deleted list id in tasks
-      state.lists = lists;
+      // state.lists = lists;
+      Vue.set(state, 'lists', lists)
     }
   },
   actions: {
@@ -40,12 +41,19 @@ export default {
         console.error('store-modules > lists.js > actions > createList()')
       }
     },
-    async getLists({ commit }, boardId) {
+    async getLists({ commit, dispatch, state }, boardId) {
       let endPoint = `boards/${boardId}`;
       try {
         let axiosRes = await api.get(endPoint);
         let lists = axiosRes.data;
+
         commit("setLists", lists);
+
+        state.lists.forEach(element => {
+          let listId = element._id;
+          dispatch("getTasksByListId", listId);
+        });
+
       } catch (error) {
         console.error('store-modules > lists.js > actions > getLists()')
       }
@@ -53,9 +61,23 @@ export default {
     async deleteListById({ dispatch }, listId) {
       try {
         let endPoint = `${listId}`;
-        let axiosRes = await api.delete(endPoint);
+        await api.delete(endPoint);
       } catch (error) {
         console.error('store-modules > lists.js > actions > deleteListById()')
+      }
+    },
+
+    async deleteList({ commit, dispatch }, list) {
+      try {
+        let listId = list._id
+        let boardId = list.board
+
+        let endPoint = `${listId}`;
+        await api.delete(endPoint);
+
+        dispatch("getLists", boardId);
+      } catch (error) {
+        console.error('store-modules > lists.js > actions > deleteList()')
       }
     },
 

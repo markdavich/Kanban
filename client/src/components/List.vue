@@ -62,17 +62,20 @@
       },
       startDrag(event) { },
       onDrop(event) {
-        alert(
-          "List.vue methods: onDrop() NOT IMPLEMENTED \n We need to post the new list id to the database"
-        );
-        let sourceList = event.item.dataset.list;
+        let sourceList = event.item.dataset.list; // For documentaion
         let targetList = this.boardList._id;
+
+        let newIndex = event.newDraggableIndex
+        let task = this.$store.state.Tasks.tasks[targetList][newIndex]
+        task.list = targetList
+
+        this.$store.dispatch('moveTask', task)
       },
 
       createNewTask() {
         let task = {
           list: this.boardList._id,
-          user: this.userId,
+          user: this.userId(), // userId() is a mixin. SEE main.js (client)
           board: this.boardList.board
         };
         this.$store.dispatch("createNewTask", task);
@@ -86,18 +89,15 @@
       deleteList() {
         let list = this.boardList;
 
-        this.$store.dispatch("deleteListById", list._id);
+        this.$store.dispatch("deleteList", list)
 
-        // This is just copied from Board.vue mounted:
-        // this.$store.dispatch("getBoardById", list.board);
+        // this.$store.dispatch("deleteListById", list._id);
+        // this.$store.dispatch("getLists", list.board);
 
-        this.$store.dispatch("getLists", list.board);
-        this.$store.state.Lists.lists.forEach(element => {
-          let listId = element._id;
-          this.$store.dispatch("getTasksByListId", listId);
-        });
-
-        // alert("List.vue methods: deleteList() not implemented");
+        // this.$store.state.Lists.lists.forEach(element => {
+        //   let listId = element._id;
+        //   this.$store.dispatch("getTasksByListId", listId);
+        // });
       },
       orderList() {
         this.list = this.list.sort((one, two) => {
