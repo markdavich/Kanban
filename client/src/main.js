@@ -5,6 +5,10 @@ import store from "./store";
 import AuthService from "./AuthService";
 //Vue.config.productionTip = false
 
+import MyModal from './components/Modal.vue'
+Vue.component('my-modal', MyModal);
+
+
 Vue.mixin({
   methods: {
     userId() {

@@ -12,7 +12,8 @@
             <i class="fas fa-clipboard-list"></i> New List
           </button>
 
-          <button @click="editUser">Edit User</button>
+          <button @click="showModalForm(MODAL_USAGE.USER)">Edit User</button>
+          <button @click="showModalForm(MODAL_USAGE.COLLABORATORS)">Edit Collaborators</button>
 
           <router-link id="log-out" v-show="!isLogin" to="/login"> logout <i class="fas fa-sign-out-alt"></i>
           </router-link>
@@ -22,12 +23,22 @@
 
       <router-view />
     </div>
-    <user v-if="editingUser" :closeCallBack="userEditCloseCallBack"></user>
+
+    <!-- <my-modal @close="showModal = false" :show-modal="showModal"></my-modal> -->
+    <my-modal :closeCallBack="modalCloseCallBack" :showModal="showModal">
+      <user v-if="modalUsage === MODAL_USAGE.USER" />
+    </my-modal>
   </div>
 </template>
 
 <script>
   import User from "./components/User"
+
+  const MODAL_USAGE = {
+    NONE: 0,
+    USER: 1,
+    COLLABORATORS: 2
+  }
   export default {
     name: "App",
     components: {
@@ -35,7 +46,10 @@
     },
     data() {
       return {
-        editingUser: false
+        editingUser: false,
+        showModal: false,
+        MODAL_USAGE: MODAL_USAGE,
+        modalUsage: MODAL_USAGE.NONE
       }
     },
     computed: {
@@ -81,11 +95,13 @@
         };
         return result;
       },
-      editUser() {
-        this.editingUser = true
+      showModalForm(modalUsage) {
+        this.modalUsage = modalUsage
+        this.showModal = true
       },
-      userEditCloseCallBack() {
-        this.editingUser = false
+      modalCloseCallBack() {
+        this.modalUsage = MODAL_USAGE.NONE
+        this.showModal = false
       }
     },
   };
