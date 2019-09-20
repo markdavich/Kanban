@@ -4,13 +4,9 @@
       <click-edit v-if="board.title" :initialValue="board.title" :placeHolder="'Board Title...'"
         :enterKeyPress="changeBoardTitle">
       </click-edit>
-      <!-- <h1 class="board">board.title = {{ board.title }}</h1> -->
-      <!-- <button class="btn btn-primary" @click="createList">
-        <i class="fas fa-clipboard-list"></i> New List
-      </button> -->
     </div>
     <div class="scrolling-wrapper">
-      <list class="list" v-for="list in lists" :boardList="list"></list>
+      <list v-if="lists" class="list" v-for="list in lists" :boardList="list"></list>
     </div>
   </div>
 </template>
@@ -41,6 +37,7 @@
       },
     },
     mounted() {
+      console.log('Board.vue mounted(): try using store-modules/boards.js actions: loadBoard()')
       this.$store.dispatch("getBoardById", this.$route.params.boardId);
       this.$store.dispatch("getLists", this.$route.params.boardId);
       this.$store.state.List.lists.forEach(element => {
@@ -87,6 +84,7 @@
     overflow-y: hidden !important;
     white-space: nowrap !important;
     max-height: 78vh !important;
+    min-height: 78vh !important;
   }
 
   .list {

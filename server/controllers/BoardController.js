@@ -1,7 +1,8 @@
-import _boardService from "../services/BoardService";
 import express from "express";
 import { Authorize } from "../middleware/authorize.js";
-
+import _boardService from "../services/BoardService";
+import _collaboratorService from "../services/CollaboratorService"
+import { runInNewContext } from "vm";
 //PUBLIC
 export default class BoardsController {
   constructor() {
@@ -13,6 +14,13 @@ export default class BoardsController {
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete)
+
+      // COLLABORATORS
+      .get("/:boardId/collaborators", this.getCollaborators)
+      .post("/:boardId/collaborators/:collaboratorId", this.postCollaborators)
+      .delete("/:boardId/collaborators/:collaboratorId", this.deleteCollaborators)
+      .put("/:boardId/collaborators/:collaboratorId", this.putCollaborators)
+
       .use(this.defaultRoute);
   }
 
@@ -79,6 +87,53 @@ export default class BoardsController {
       return res.send("Successfully deleted");
     } catch (error) {
       next(error);
+    }
+  }
+
+  // COLLABORATORS
+  async getCollaborators(req, res, next) {
+    try {
+      let boardId = req.params.boardId
+      let collaborators = await _collaboratorService.find({ board: boardId })
+      return res.status(201).send(collaborators)
+    } catch (error) {
+      error.message = 'BoardControllers.js getCollaborators()'
+      next(error)
+    }
+  }
+  async postCollaborators(req, res, next) {
+    try {
+      let collaborator = req.body
+      let createdCollaborator = await _collaboratorService.create(collaborator)
+      return res.status(201).send(createdCollaborator)
+    } catch (error) {
+      error.message = 'BoardControllers.js postCollaborators()'
+      next(error)
+    }
+  }
+  async deleteCollaborators(req, res, next) {
+    try {
+      let collaboratorId = req.params.collaboratorId
+      let deletedCollaborator = await _collaboratorService.findOneAndDelete({_id: collaboratorId})
+      return res.status(201).send(deletedCollaborator)
+    } catch (error) {
+      error.message = 'BoardControllers.js deleteCollaborators()'
+      next(error)
+    }
+  }
+  async putCollaborators(req, res, next) {
+    try {
+      let collaboratorId = req.params.collaboratorId
+      let collaborator = req.body
+      let editedCollaborator = await _collaboratorService.findOneAndUpdate(
+        { _id: collaboratorId },
+        collaborator,
+        { new: true }
+      )
+      return res.status(201).send(editedCollaborator)
+    } catch (error) {
+      error.message = 'BoardControllers.js putCollaborators()'
+      next(error)
     }
   }
 }

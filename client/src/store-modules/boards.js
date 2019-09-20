@@ -69,6 +69,19 @@ export default {
       } catch (error) {
         console.error('store-modules > boards.js > actions: editBoard()')
       }
+    },
+
+    async loadBoard({dispatch}, boardId){
+      try {
+        this.$store.dispatch("getBoardById", this.$route.params.boardId);
+        this.$store.dispatch("getLists", this.$route.params.boardId);
+        this.$store.state.List.lists.forEach(element => {
+          let listId = element._id;
+          this.$store.dispatch("getTasksByListId", listId);
+        });
+      } catch (error) {
+        console.error('store-modules > boards.js > actions: loadBoard()')
+      }
     }
   }
 }
